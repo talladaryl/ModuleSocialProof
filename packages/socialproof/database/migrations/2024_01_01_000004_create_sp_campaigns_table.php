@@ -10,6 +10,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sp_campaigns', function (Blueprint $table) {
+            $table->id()->unique();
             $table->id('campaign_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('domain_id')->nullable();

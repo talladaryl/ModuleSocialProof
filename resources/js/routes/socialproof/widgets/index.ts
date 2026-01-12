@@ -215,7 +215,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:50
  * @route '/socialproof/widgets/{widget}'
  */
-export const show = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const show = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -230,7 +230,7 @@ show.definition = {
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:50
  * @route '/socialproof/widgets/{widget}'
  */
-show.url = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+show.url = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { widget: args }
     }
@@ -263,7 +263,7 @@ show.url = (args: { widget: string | number | { id: string | number } } | [widge
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:50
  * @route '/socialproof/widgets/{widget}'
  */
-show.get = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+show.get = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -272,7 +272,7 @@ show.get = (args: { widget: string | number | { id: string | number } } | [widge
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:50
  * @route '/socialproof/widgets/{widget}'
  */
-show.head = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+show.head = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -282,7 +282,7 @@ show.head = (args: { widget: string | number | { id: string | number } } | [widg
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:50
  * @route '/socialproof/widgets/{widget}'
  */
-    const showForm = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const showForm = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: show.url(args, options),
         method: 'get',
     })
@@ -292,7 +292,7 @@ show.head = (args: { widget: string | number | { id: string | number } } | [widg
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:50
  * @route '/socialproof/widgets/{widget}'
  */
-        showForm.get = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        showForm.get = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: show.url(args, options),
             method: 'get',
         })
@@ -301,7 +301,7 @@ show.head = (args: { widget: string | number | { id: string | number } } | [widg
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:50
  * @route '/socialproof/widgets/{widget}'
  */
-        showForm.head = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        showForm.head = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: show.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
@@ -317,7 +317,7 @@ show.head = (args: { widget: string | number | { id: string | number } } | [widg
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:68
  * @route '/socialproof/widgets/{widget}/edit'
  */
-export const edit = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const edit = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -332,7 +332,7 @@ edit.definition = {
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:68
  * @route '/socialproof/widgets/{widget}/edit'
  */
-edit.url = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+edit.url = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { widget: args }
     }
@@ -365,7 +365,7 @@ edit.url = (args: { widget: string | number | { id: string | number } } | [widge
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:68
  * @route '/socialproof/widgets/{widget}/edit'
  */
-edit.get = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+edit.get = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -374,7 +374,7 @@ edit.get = (args: { widget: string | number | { id: string | number } } | [widge
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:68
  * @route '/socialproof/widgets/{widget}/edit'
  */
-edit.head = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+edit.head = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: edit.url(args, options),
     method: 'head',
 })
@@ -384,7 +384,7 @@ edit.head = (args: { widget: string | number | { id: string | number } } | [widg
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:68
  * @route '/socialproof/widgets/{widget}/edit'
  */
-    const editForm = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const editForm = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: edit.url(args, options),
         method: 'get',
     })
@@ -394,7 +394,7 @@ edit.head = (args: { widget: string | number | { id: string | number } } | [widg
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:68
  * @route '/socialproof/widgets/{widget}/edit'
  */
-        editForm.get = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        editForm.get = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: edit.url(args, options),
             method: 'get',
         })
@@ -403,7 +403,7 @@ edit.head = (args: { widget: string | number | { id: string | number } } | [widg
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:68
  * @route '/socialproof/widgets/{widget}/edit'
  */
-        editForm.head = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        editForm.head = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: edit.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
@@ -419,7 +419,7 @@ edit.head = (args: { widget: string | number | { id: string | number } } | [widg
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:78
  * @route '/socialproof/widgets/{widget}'
  */
-export const update = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+export const update = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -434,7 +434,7 @@ update.definition = {
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:78
  * @route '/socialproof/widgets/{widget}'
  */
-update.url = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+update.url = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { widget: args }
     }
@@ -467,7 +467,7 @@ update.url = (args: { widget: string | number | { id: string | number } } | [wid
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:78
  * @route '/socialproof/widgets/{widget}'
  */
-update.put = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+update.put = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -476,7 +476,7 @@ update.put = (args: { widget: string | number | { id: string | number } } | [wid
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:78
  * @route '/socialproof/widgets/{widget}'
  */
-update.patch = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
+update.patch = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })
@@ -486,7 +486,7 @@ update.patch = (args: { widget: string | number | { id: string | number } } | [w
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:78
  * @route '/socialproof/widgets/{widget}'
  */
-    const updateForm = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const updateForm = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: update.url(args, {
                     [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                         _method: 'PUT',
@@ -501,7 +501,7 @@ update.patch = (args: { widget: string | number | { id: string | number } } | [w
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:78
  * @route '/socialproof/widgets/{widget}'
  */
-        updateForm.put = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        updateForm.put = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: update.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'PUT',
@@ -515,7 +515,7 @@ update.patch = (args: { widget: string | number | { id: string | number } } | [w
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:78
  * @route '/socialproof/widgets/{widget}'
  */
-        updateForm.patch = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        updateForm.patch = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: update.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'PATCH',
@@ -531,7 +531,7 @@ update.patch = (args: { widget: string | number | { id: string | number } } | [w
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:89
  * @route '/socialproof/widgets/{widget}'
  */
-export const destroy = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+export const destroy = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -546,7 +546,7 @@ destroy.definition = {
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:89
  * @route '/socialproof/widgets/{widget}'
  */
-destroy.url = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+destroy.url = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { widget: args }
     }
@@ -579,7 +579,7 @@ destroy.url = (args: { widget: string | number | { id: string | number } } | [wi
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:89
  * @route '/socialproof/widgets/{widget}'
  */
-destroy.delete = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+destroy.delete = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -589,7 +589,7 @@ destroy.delete = (args: { widget: string | number | { id: string | number } } | 
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:89
  * @route '/socialproof/widgets/{widget}'
  */
-    const destroyForm = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const destroyForm = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: destroy.url(args, {
                     [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                         _method: 'DELETE',
@@ -604,7 +604,7 @@ destroy.delete = (args: { widget: string | number | { id: string | number } } | 
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:89
  * @route '/socialproof/widgets/{widget}'
  */
-        destroyForm.delete = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        destroyForm.delete = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: destroy.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'DELETE',
@@ -620,7 +620,7 @@ destroy.delete = (args: { widget: string | number | { id: string | number } } | 
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:100
  * @route '/socialproof/widgets/{widget}/script'
  */
-export const script = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const script = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: script.url(args, options),
     method: 'get',
 })
@@ -635,7 +635,7 @@ script.definition = {
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:100
  * @route '/socialproof/widgets/{widget}/script'
  */
-script.url = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+script.url = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { widget: args }
     }
@@ -668,7 +668,7 @@ script.url = (args: { widget: string | number | { id: string | number } } | [wid
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:100
  * @route '/socialproof/widgets/{widget}/script'
  */
-script.get = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+script.get = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: script.url(args, options),
     method: 'get',
 })
@@ -677,7 +677,7 @@ script.get = (args: { widget: string | number | { id: string | number } } | [wid
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:100
  * @route '/socialproof/widgets/{widget}/script'
  */
-script.head = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+script.head = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: script.url(args, options),
     method: 'head',
 })
@@ -687,7 +687,7 @@ script.head = (args: { widget: string | number | { id: string | number } } | [wi
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:100
  * @route '/socialproof/widgets/{widget}/script'
  */
-    const scriptForm = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const scriptForm = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: script.url(args, options),
         method: 'get',
     })
@@ -697,7 +697,7 @@ script.head = (args: { widget: string | number | { id: string | number } } | [wi
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:100
  * @route '/socialproof/widgets/{widget}/script'
  */
-        scriptForm.get = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        scriptForm.get = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: script.url(args, options),
             method: 'get',
         })
@@ -706,7 +706,7 @@ script.head = (args: { widget: string | number | { id: string | number } } | [wi
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:100
  * @route '/socialproof/widgets/{widget}/script'
  */
-        scriptForm.head = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        scriptForm.head = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: script.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
@@ -722,7 +722,7 @@ script.head = (args: { widget: string | number | { id: string | number } } | [wi
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:110
  * @route '/socialproof/widgets/{widget}/preview'
  */
-export const preview = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const preview = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: preview.url(args, options),
     method: 'get',
 })
@@ -737,7 +737,7 @@ preview.definition = {
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:110
  * @route '/socialproof/widgets/{widget}/preview'
  */
-preview.url = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+preview.url = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { widget: args }
     }
@@ -770,7 +770,7 @@ preview.url = (args: { widget: string | number | { id: string | number } } | [wi
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:110
  * @route '/socialproof/widgets/{widget}/preview'
  */
-preview.get = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+preview.get = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: preview.url(args, options),
     method: 'get',
 })
@@ -779,7 +779,7 @@ preview.get = (args: { widget: string | number | { id: string | number } } | [wi
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:110
  * @route '/socialproof/widgets/{widget}/preview'
  */
-preview.head = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+preview.head = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: preview.url(args, options),
     method: 'head',
 })
@@ -789,7 +789,7 @@ preview.head = (args: { widget: string | number | { id: string | number } } | [w
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:110
  * @route '/socialproof/widgets/{widget}/preview'
  */
-    const previewForm = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const previewForm = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: preview.url(args, options),
         method: 'get',
     })
@@ -799,7 +799,7 @@ preview.head = (args: { widget: string | number | { id: string | number } } | [w
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:110
  * @route '/socialproof/widgets/{widget}/preview'
  */
-        previewForm.get = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        previewForm.get = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: preview.url(args, options),
             method: 'get',
         })
@@ -808,7 +808,7 @@ preview.head = (args: { widget: string | number | { id: string | number } } | [w
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:110
  * @route '/socialproof/widgets/{widget}/preview'
  */
-        previewForm.head = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        previewForm.head = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: preview.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
@@ -824,7 +824,7 @@ preview.head = (args: { widget: string | number | { id: string | number } } | [w
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:120
  * @route '/socialproof/widgets/{widget}/regenerate-key'
  */
-export const regenerateKey = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+export const regenerateKey = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: regenerateKey.url(args, options),
     method: 'post',
 })
@@ -839,7 +839,7 @@ regenerateKey.definition = {
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:120
  * @route '/socialproof/widgets/{widget}/regenerate-key'
  */
-regenerateKey.url = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+regenerateKey.url = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { widget: args }
     }
@@ -872,7 +872,7 @@ regenerateKey.url = (args: { widget: string | number | { id: string | number } }
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:120
  * @route '/socialproof/widgets/{widget}/regenerate-key'
  */
-regenerateKey.post = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+regenerateKey.post = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: regenerateKey.url(args, options),
     method: 'post',
 })
@@ -882,7 +882,7 @@ regenerateKey.post = (args: { widget: string | number | { id: string | number } 
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:120
  * @route '/socialproof/widgets/{widget}/regenerate-key'
  */
-    const regenerateKeyForm = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const regenerateKeyForm = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: regenerateKey.url(args, options),
         method: 'post',
     })
@@ -892,7 +892,7 @@ regenerateKey.post = (args: { widget: string | number | { id: string | number } 
  * @see packages/socialproof/src/Http/Controllers/WidgetController.php:120
  * @route '/socialproof/widgets/{widget}/regenerate-key'
  */
-        regenerateKeyForm.post = (args: { widget: string | number | { id: string | number } } | [widget: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        regenerateKeyForm.post = (args: { widget: number | { id: number } } | [widget: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: regenerateKey.url(args, options),
             method: 'post',
         })

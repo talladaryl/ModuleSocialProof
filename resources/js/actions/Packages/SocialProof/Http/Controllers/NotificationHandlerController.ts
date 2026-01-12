@@ -600,7 +600,7 @@ destroy.delete = (args: { notification_handler: string | number } | [notificatio
  * @see packages/socialproof/src/Http/Controllers/NotificationHandlerController.php:101
  * @route '/socialproof/notification-handlers/{handler}/test'
  */
-export const test = (args: { handler: string | number | { notification_handler_id: string | number } } | [handler: string | number | { notification_handler_id: string | number } ] | string | number | { notification_handler_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+export const test = (args: { handler: number | { notification_handler_id: number } } | [handler: number | { notification_handler_id: number } ] | number | { notification_handler_id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: test.url(args, options),
     method: 'post',
 })
@@ -615,7 +615,7 @@ test.definition = {
  * @see packages/socialproof/src/Http/Controllers/NotificationHandlerController.php:101
  * @route '/socialproof/notification-handlers/{handler}/test'
  */
-test.url = (args: { handler: string | number | { notification_handler_id: string | number } } | [handler: string | number | { notification_handler_id: string | number } ] | string | number | { notification_handler_id: string | number }, options?: RouteQueryOptions) => {
+test.url = (args: { handler: number | { notification_handler_id: number } } | [handler: number | { notification_handler_id: number } ] | number | { notification_handler_id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { handler: args }
     }
@@ -648,7 +648,7 @@ test.url = (args: { handler: string | number | { notification_handler_id: string
  * @see packages/socialproof/src/Http/Controllers/NotificationHandlerController.php:101
  * @route '/socialproof/notification-handlers/{handler}/test'
  */
-test.post = (args: { handler: string | number | { notification_handler_id: string | number } } | [handler: string | number | { notification_handler_id: string | number } ] | string | number | { notification_handler_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+test.post = (args: { handler: number | { notification_handler_id: number } } | [handler: number | { notification_handler_id: number } ] | number | { notification_handler_id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: test.url(args, options),
     method: 'post',
 })
@@ -658,7 +658,7 @@ test.post = (args: { handler: string | number | { notification_handler_id: strin
  * @see packages/socialproof/src/Http/Controllers/NotificationHandlerController.php:101
  * @route '/socialproof/notification-handlers/{handler}/test'
  */
-    const testForm = (args: { handler: string | number | { notification_handler_id: string | number } } | [handler: string | number | { notification_handler_id: string | number } ] | string | number | { notification_handler_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const testForm = (args: { handler: number | { notification_handler_id: number } } | [handler: number | { notification_handler_id: number } ] | number | { notification_handler_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: test.url(args, options),
         method: 'post',
     })
@@ -668,7 +668,7 @@ test.post = (args: { handler: string | number | { notification_handler_id: strin
  * @see packages/socialproof/src/Http/Controllers/NotificationHandlerController.php:101
  * @route '/socialproof/notification-handlers/{handler}/test'
  */
-        testForm.post = (args: { handler: string | number | { notification_handler_id: string | number } } | [handler: string | number | { notification_handler_id: string | number } ] | string | number | { notification_handler_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        testForm.post = (args: { handler: number | { notification_handler_id: number } } | [handler: number | { notification_handler_id: number } ] | number | { notification_handler_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: test.url(args, options),
             method: 'post',
         })
