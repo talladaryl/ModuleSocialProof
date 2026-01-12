@@ -14,8 +14,11 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\CheckboxList;
 use Packages\SocialProof\Models\Plan;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Packages\SocialProof\Filament\Resources\PlanResource\Pages;
 use UnitEnum;
 use BackedEnum;
@@ -105,21 +108,28 @@ class PlanResource extends Resource
                 Tables\Columns\TextColumn::make('sort_order')->sortable(),
             ])
             ->actions([
-                    Action::make('view')
-                        ->label('Voir')
-                        ->icon('heroicon-o-eye')
-                        ->url(fn ($record) => static::getUrl('view', ['record' => $record]))
-                        ->openUrlInNewTab(),
+                Action::make('view')
+                    ->label('Voir')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn ($record) => static::getUrl('view', ['record' => $record]))
+                    ->openUrlInNewTab(),
 
-                    EditAction::make(),
-                    DeleteAction::make(),
-                ])
+                EditAction::make(),
+                DeleteAction::make(),
+            ])
             ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('sort_order');
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
     }
 
     public static function getPages(): array

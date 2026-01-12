@@ -1,0 +1,99 @@
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../../../../wayfinder'
+/**
+* @see \Packages\SocialProof\Filament\Resources\TeamResource\Pages\EditTeam::__invoke
+ * @see packages/socialproof/src/Filament/Resources/TeamResource/Pages/EditTeam.php:7
+ * @route '/socialproof-admin/teams/{record}/edit'
+ */
+const EditTeam = (args: { record: string | number } | [record: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: EditTeam.url(args, options),
+    method: 'get',
+})
+
+EditTeam.definition = {
+    methods: ["get","head"],
+    url: '/socialproof-admin/teams/{record}/edit',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Packages\SocialProof\Filament\Resources\TeamResource\Pages\EditTeam::__invoke
+ * @see packages/socialproof/src/Filament/Resources/TeamResource/Pages/EditTeam.php:7
+ * @route '/socialproof-admin/teams/{record}/edit'
+ */
+EditTeam.url = (args: { record: string | number } | [record: string | number ] | string | number, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { record: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    record: args[0],
+                }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+                        record: args.record,
+                }
+
+    return EditTeam.definition.url
+            .replace('{record}', parsedArgs.record.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \Packages\SocialProof\Filament\Resources\TeamResource\Pages\EditTeam::__invoke
+ * @see packages/socialproof/src/Filament/Resources/TeamResource/Pages/EditTeam.php:7
+ * @route '/socialproof-admin/teams/{record}/edit'
+ */
+EditTeam.get = (args: { record: string | number } | [record: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: EditTeam.url(args, options),
+    method: 'get',
+})
+/**
+* @see \Packages\SocialProof\Filament\Resources\TeamResource\Pages\EditTeam::__invoke
+ * @see packages/socialproof/src/Filament/Resources/TeamResource/Pages/EditTeam.php:7
+ * @route '/socialproof-admin/teams/{record}/edit'
+ */
+EditTeam.head = (args: { record: string | number } | [record: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: EditTeam.url(args, options),
+    method: 'head',
+})
+
+    /**
+* @see \Packages\SocialProof\Filament\Resources\TeamResource\Pages\EditTeam::__invoke
+ * @see packages/socialproof/src/Filament/Resources/TeamResource/Pages/EditTeam.php:7
+ * @route '/socialproof-admin/teams/{record}/edit'
+ */
+    const EditTeamForm = (args: { record: string | number } | [record: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: EditTeam.url(args, options),
+        method: 'get',
+    })
+
+            /**
+* @see \Packages\SocialProof\Filament\Resources\TeamResource\Pages\EditTeam::__invoke
+ * @see packages/socialproof/src/Filament/Resources/TeamResource/Pages/EditTeam.php:7
+ * @route '/socialproof-admin/teams/{record}/edit'
+ */
+        EditTeamForm.get = (args: { record: string | number } | [record: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: EditTeam.url(args, options),
+            method: 'get',
+        })
+            /**
+* @see \Packages\SocialProof\Filament\Resources\TeamResource\Pages\EditTeam::__invoke
+ * @see packages/socialproof/src/Filament/Resources/TeamResource/Pages/EditTeam.php:7
+ * @route '/socialproof-admin/teams/{record}/edit'
+ */
+        EditTeamForm.head = (args: { record: string | number } | [record: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: EditTeam.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    EditTeam.form = EditTeamForm
+export default EditTeam

@@ -15,8 +15,11 @@ use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\DateTimePicker;
 use Packages\SocialProof\Models\Team;
 use Packages\SocialProof\Models\Plan;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Packages\SocialProof\Filament\Resources\TeamResource\Pages;
 use BackedEnum;
 use UnitEnum;
@@ -90,20 +93,27 @@ class TeamResource extends Resource
                 Tables\Filters\TernaryFilter::make('is_active'),
             ])
             ->actions([
-                    Action::make('view')
-                        ->label('Voir')
-                        ->icon('heroicon-o-eye')
-                        ->url(fn ($record) => static::getUrl('view', ['record' => $record]))
-                        ->openUrlInNewTab(),
+                Action::make('view')
+                    ->label('Voir')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn ($record) => static::getUrl('view', ['record' => $record]))
+                    ->openUrlInNewTab(),
 
-                    EditAction::make(),
-                    DeleteAction::make(),
-                ])
+                EditAction::make(),
+                DeleteAction::make(),
+            ])
             ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
     }
 
     public static function getPages(): array

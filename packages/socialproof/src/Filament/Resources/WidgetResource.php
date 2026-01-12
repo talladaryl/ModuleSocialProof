@@ -11,8 +11,11 @@ use Packages\SocialProof\Models\Team;
 use Packages\SocialProof\Models\Site;
 use Packages\SocialProof\Models\Widget;
 use Packages\SocialProof\Models\Template;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Packages\SocialProof\Filament\Resources\WidgetResource\Pages;
 use Filament\Schemas\Schema;
 use UnitEnum;
@@ -271,9 +274,14 @@ class WidgetResource extends Resource
                     ]),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Action::make('view')
+                    ->label('Voir')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn ($record) => static::getUrl('view', ['record' => $record]))
+                    ->openUrlInNewTab(),
+
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
