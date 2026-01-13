@@ -127,11 +127,11 @@ class SiteResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('activate')
+                    \Filament\Actions\BulkAction::make('activate')
                         ->label('Activer')
                         ->icon('heroicon-o-check')
                         ->action(fn ($records) => $records->each->update(['is_active' => true])),
-                    Tables\Actions\BulkAction::make('deactivate')
+                    \Filament\Actions\BulkAction::make('deactivate')
                         ->label('Désactiver')
                         ->icon('heroicon-o-x-mark')
                         ->action(fn ($records) => $records->each->update(['is_active' => false])),
@@ -160,3 +160,4 @@ class SiteResource extends Resource
         return static::getModel()::where('is_active', true)->count();
     }
 }
+

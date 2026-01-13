@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Packages\SocialProof\Models\Site;
+use Packages\SocialProof\Models\Plan;
 
 class Team extends Model
 {
@@ -17,15 +19,21 @@ class Team extends Model
 
     protected $fillable = [
         'client_id',
+        'plan_id',
         'name',
+        'slug',
         'description',
         'settings',
+        'subscription_ends_at',
+        'trial_ends_at',
         'is_active',
     ];
 
     protected $casts = [
         'settings' => 'array',
         'is_active' => 'boolean',
+        'subscription_ends_at' => 'datetime',
+        'trial_ends_at' => 'datetime',
     ];
 
     // Relations
@@ -34,9 +42,19 @@ class Team extends Model
         return $this->belongsTo(Client::class, 'client_id', 'client_id');
     }
 
+    public function plan(): BelongsTo
+    {
+        return $this->belongsTo(Plan::class, 'plan_id', 'plan_id');
+    }
+
     public function members(): HasMany
     {
         return $this->hasMany(TeamMember::class, 'team_id', 'team_id');
+    }
+
+    public function sites(): HasMany
+    {
+        return $this->hasMany(Site::class, 'client_id', 'client_id');
     }
 
     public function activeMembers(): HasMany
@@ -154,4 +172,3 @@ class Team extends Model
         $this->update(['settings' => $settings]);
     }
 }
-

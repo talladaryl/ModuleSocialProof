@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Notifications\DatabaseChannel;
+use Illuminate\Notifications\Channels\DatabaseChannel as BaseDatabaseChannel;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -12,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(BaseDatabaseChannel::class, DatabaseChannel::class);
     }
 
     /**

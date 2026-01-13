@@ -160,11 +160,11 @@ class ClientResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('activate')
+                    \Filament\Actions\BulkAction::make('activate')
                         ->label('Activer')
                         ->icon('heroicon-o-check')
                         ->action(fn ($records) => $records->each->update(['status' => 'active'])),
-                    Tables\Actions\BulkAction::make('suspend')
+                    \Filament\Actions\BulkAction::make('suspend')
                         ->label('Suspendre')
                         ->icon('heroicon-o-no-symbol')
                         ->color('danger')
@@ -198,3 +198,4 @@ class ClientResource extends Resource
         return static::getModel()::where('status', 'active')->count();
     }
 }
+

@@ -230,10 +230,10 @@ class NotificationExtendedResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('activate')
+                    \Filament\Actions\BulkAction::make('activate')
                         ->label('Activer')
                         ->action(fn ($records) => $records->each->update(['status' => 'active'])),
-                    Tables\Actions\BulkAction::make('pause')
+                    \Filament\Actions\BulkAction::make('pause')
                         ->label('Mettre en pause')
                         ->action(fn ($records) => $records->each->update(['status' => 'paused'])),
                     DeleteBulkAction::make(),
@@ -261,3 +261,4 @@ class NotificationExtendedResource extends Resource
         return static::getModel()::where('status', 'active')->count();
     }
 }
+

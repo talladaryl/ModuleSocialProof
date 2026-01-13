@@ -232,10 +232,10 @@ class TemplateResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('activate')
+                    \Filament\Actions\BulkAction::make('activate')
                         ->label('Activer')
                         ->action(fn ($records) => $records->each->activate()),
-                    Tables\Actions\BulkAction::make('deactivate')
+                    \Filament\Actions\BulkAction::make('deactivate')
                         ->label('Désactiver')
                         ->action(fn ($records) => $records->each->deactivate()),
                     DeleteBulkAction::make(),
@@ -265,3 +265,4 @@ class TemplateResource extends Resource
         return static::getModel()::where('status', 'active')->count();
     }
 }
+

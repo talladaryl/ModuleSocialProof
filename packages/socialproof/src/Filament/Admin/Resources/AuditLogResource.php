@@ -98,7 +98,7 @@ class AuditLogResource extends Resource
             ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
-                    Tables\Actions\BulkAction::make('cleanup')
+                    \Filament\Actions\BulkAction::make('cleanup')
                         ->label('Nettoyer (> 90 jours)')
                         ->icon('heroicon-o-trash')
                         ->color('danger')
@@ -117,3 +117,4 @@ class AuditLogResource extends Resource
         ];
     }
 }
+

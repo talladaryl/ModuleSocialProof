@@ -75,7 +75,7 @@ class LogResource extends Resource
             ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
-                    Tables\Actions\BulkAction::make('cleanup')
+                    \Filament\Actions\BulkAction::make('cleanup')
                         ->label('Nettoyer (> 30 jours)')
                         ->icon('heroicon-o-trash')
                         ->color('danger')
@@ -99,3 +99,4 @@ class LogResource extends Resource
         return static::getModel()::whereDate('created_at', today())->count();
     }
 }
+

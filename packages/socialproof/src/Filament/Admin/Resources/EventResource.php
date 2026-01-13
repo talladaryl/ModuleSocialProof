@@ -152,12 +152,12 @@ class EventResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('process')
+                    \Filament\Actions\BulkAction::make('process')
                         ->label('Marquer traités')
                         ->icon('heroicon-o-check')
                         ->action(fn ($records) => $records->each->markAsProcessed()),
                     DeleteBulkAction::make(),
-                    Tables\Actions\BulkAction::make('cleanup')
+                    \Filament\Actions\BulkAction::make('cleanup')
                         ->label('Nettoyer (> 30 jours)')
                         ->icon('heroicon-o-trash')
                         ->color('danger')
@@ -191,3 +191,4 @@ class EventResource extends Resource
         return 'info';
     }
 }
+

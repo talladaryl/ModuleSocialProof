@@ -19,12 +19,14 @@ class Widget extends Model
         'api_key',
         'settings',
         'is_active',
+        'status',
         'user_id',
     ];
 
     protected $casts = [
         'settings' => 'array',
         'is_active' => 'boolean',
+        'status' => 'string',
     ];
 
     protected $hidden = [
