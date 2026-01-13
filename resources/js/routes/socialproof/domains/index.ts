@@ -215,7 +215,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:49
  * @route '/socialproof/domains/{domain}'
  */
-export const show = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const show = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -230,7 +230,7 @@ show.definition = {
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:49
  * @route '/socialproof/domains/{domain}'
  */
-show.url = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions) => {
+show.url = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { domain: args }
     }
@@ -263,7 +263,7 @@ show.url = (args: { domain: number | { domain_id: number } } | [domain: number |
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:49
  * @route '/socialproof/domains/{domain}'
  */
-show.get = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+show.get = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -272,7 +272,7 @@ show.get = (args: { domain: number | { domain_id: number } } | [domain: number |
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:49
  * @route '/socialproof/domains/{domain}'
  */
-show.head = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+show.head = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -282,7 +282,7 @@ show.head = (args: { domain: number | { domain_id: number } } | [domain: number 
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:49
  * @route '/socialproof/domains/{domain}'
  */
-    const showForm = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const showForm = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: show.url(args, options),
         method: 'get',
     })
@@ -292,7 +292,7 @@ show.head = (args: { domain: number | { domain_id: number } } | [domain: number 
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:49
  * @route '/socialproof/domains/{domain}'
  */
-        showForm.get = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        showForm.get = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: show.url(args, options),
             method: 'get',
         })
@@ -301,7 +301,7 @@ show.head = (args: { domain: number | { domain_id: number } } | [domain: number 
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:49
  * @route '/socialproof/domains/{domain}'
  */
-        showForm.head = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        showForm.head = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: show.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
@@ -317,7 +317,7 @@ show.head = (args: { domain: number | { domain_id: number } } | [domain: number 
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:62
  * @route '/socialproof/domains/{domain}/edit'
  */
-export const edit = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const edit = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -332,7 +332,7 @@ edit.definition = {
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:62
  * @route '/socialproof/domains/{domain}/edit'
  */
-edit.url = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions) => {
+edit.url = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { domain: args }
     }
@@ -365,7 +365,7 @@ edit.url = (args: { domain: number | { domain_id: number } } | [domain: number |
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:62
  * @route '/socialproof/domains/{domain}/edit'
  */
-edit.get = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+edit.get = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -374,7 +374,7 @@ edit.get = (args: { domain: number | { domain_id: number } } | [domain: number |
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:62
  * @route '/socialproof/domains/{domain}/edit'
  */
-edit.head = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+edit.head = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: edit.url(args, options),
     method: 'head',
 })
@@ -384,7 +384,7 @@ edit.head = (args: { domain: number | { domain_id: number } } | [domain: number 
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:62
  * @route '/socialproof/domains/{domain}/edit'
  */
-    const editForm = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const editForm = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: edit.url(args, options),
         method: 'get',
     })
@@ -394,7 +394,7 @@ edit.head = (args: { domain: number | { domain_id: number } } | [domain: number 
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:62
  * @route '/socialproof/domains/{domain}/edit'
  */
-        editForm.get = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        editForm.get = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: edit.url(args, options),
             method: 'get',
         })
@@ -403,7 +403,7 @@ edit.head = (args: { domain: number | { domain_id: number } } | [domain: number 
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:62
  * @route '/socialproof/domains/{domain}/edit'
  */
-        editForm.head = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        editForm.head = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: edit.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
@@ -419,7 +419,7 @@ edit.head = (args: { domain: number | { domain_id: number } } | [domain: number 
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:71
  * @route '/socialproof/domains/{domain}'
  */
-export const update = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+export const update = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -434,7 +434,7 @@ update.definition = {
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:71
  * @route '/socialproof/domains/{domain}'
  */
-update.url = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions) => {
+update.url = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { domain: args }
     }
@@ -467,7 +467,7 @@ update.url = (args: { domain: number | { domain_id: number } } | [domain: number
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:71
  * @route '/socialproof/domains/{domain}'
  */
-update.put = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+update.put = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -476,7 +476,7 @@ update.put = (args: { domain: number | { domain_id: number } } | [domain: number
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:71
  * @route '/socialproof/domains/{domain}'
  */
-update.patch = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
+update.patch = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })
@@ -486,7 +486,7 @@ update.patch = (args: { domain: number | { domain_id: number } } | [domain: numb
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:71
  * @route '/socialproof/domains/{domain}'
  */
-    const updateForm = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const updateForm = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: update.url(args, {
                     [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                         _method: 'PUT',
@@ -501,7 +501,7 @@ update.patch = (args: { domain: number | { domain_id: number } } | [domain: numb
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:71
  * @route '/socialproof/domains/{domain}'
  */
-        updateForm.put = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        updateForm.put = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: update.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'PUT',
@@ -515,7 +515,7 @@ update.patch = (args: { domain: number | { domain_id: number } } | [domain: numb
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:71
  * @route '/socialproof/domains/{domain}'
  */
-        updateForm.patch = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        updateForm.patch = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: update.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'PATCH',
@@ -531,7 +531,7 @@ update.patch = (args: { domain: number | { domain_id: number } } | [domain: numb
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:82
  * @route '/socialproof/domains/{domain}'
  */
-export const destroy = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+export const destroy = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -546,7 +546,7 @@ destroy.definition = {
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:82
  * @route '/socialproof/domains/{domain}'
  */
-destroy.url = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions) => {
+destroy.url = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { domain: args }
     }
@@ -579,7 +579,7 @@ destroy.url = (args: { domain: number | { domain_id: number } } | [domain: numbe
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:82
  * @route '/socialproof/domains/{domain}'
  */
-destroy.delete = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+destroy.delete = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -589,7 +589,7 @@ destroy.delete = (args: { domain: number | { domain_id: number } } | [domain: nu
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:82
  * @route '/socialproof/domains/{domain}'
  */
-    const destroyForm = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const destroyForm = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: destroy.url(args, {
                     [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                         _method: 'DELETE',
@@ -604,7 +604,7 @@ destroy.delete = (args: { domain: number | { domain_id: number } } | [domain: nu
  * @see packages/socialproof/src/Http/Controllers/DomainController.php:82
  * @route '/socialproof/domains/{domain}'
  */
-        destroyForm.delete = (args: { domain: number | { domain_id: number } } | [domain: number | { domain_id: number } ] | number | { domain_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        destroyForm.delete = (args: { domain: string | number | { domain_id: string | number } } | [domain: string | number | { domain_id: string | number } ] | string | number | { domain_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: destroy.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'DELETE',

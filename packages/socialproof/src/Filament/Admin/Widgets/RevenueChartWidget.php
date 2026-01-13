@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class RevenueChartWidget extends ChartWidget
 {
-    protected static ?string $heading = 'Revenus (12 derniers mois)';
+    protected ?string $heading = 'Revenus (12 derniers mois)';
     protected static ?int $sort = 2;
     protected int|string|array $columnSpan = 1;
 

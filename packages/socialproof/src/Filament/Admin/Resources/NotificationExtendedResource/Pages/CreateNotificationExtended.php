@@ -1,6 +1,6 @@
 <?php
 
-namespace Packages\SocialProof\Filament\Resources\NotificationExtendedResource\Pages;
+namespace Packages\SocialProof\Filament\Admin\Resources\NotificationExtendedResource\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
 use Packages\SocialProof\Filament\Resources\NotificationExtendedResource;

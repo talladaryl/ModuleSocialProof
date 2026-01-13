@@ -17,6 +17,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TagsInput;
 use Packages\SocialProof\Models\Template;
 use Packages\SocialProof\Filament\Admin\Resources\TemplateResource\Pages;
 use UnitEnum;
@@ -39,13 +40,15 @@ class TemplateResource extends Resource
                     TextInput::make('name')->label('Nom')->required(),
                     TextInput::make('slug')->required()->unique(ignoreRecord: true),
                     Textarea::make('description')->label('Description')->columnSpanFull(),
+                    TextInput::make('author')->label('Auteur'),
+                    TextInput::make('license')->label('Licence'),
                 ]),
 
             Section::make('Configuration')
                 ->columns(2)
                 ->schema([
-                    Select::make('type')
-                        ->label('Type')
+                    Select::make('notification_type')
+                        ->label('Type de notification')
                         ->required()
                         ->options([
                             'INFORMATIONAL' => 'Informational',
@@ -60,43 +63,67 @@ class TemplateResource extends Resource
                     Select::make('category')
                         ->label('Catégorie')
                         ->options([
-                            'default' => 'Par défaut',
-                            'ecommerce' => 'E-commerce',
-                            'saas' => 'SaaS',
-                            'marketing' => 'Marketing',
-                            'custom' => 'Personnalisé',
+                            'toast' => 'Toast Notifications',
+                            'card' => 'Card Notifications',
+                            'bar' => 'Bar Notifications',
+                            'modal' => 'Modal Notifications',
+                            'popup' => 'Popup Notifications',
+                            'banner' => 'Banner Notifications',
+                            'sidebar' => 'Sidebar Notifications',
+                            'corner' => 'Corner Notifications',
                         ])
-                        ->default('default'),
-                    FileUpload::make('thumbnail')
-                        ->label('Aperçu')
+                        ->default('toast'),
+                    Select::make('visibility')
+                        ->label('Visibilité')
+                        ->options([
+                            'public' => 'Public',
+                            'private' => 'Privé',
+                            'system' => 'Système',
+                        ])
+                        ->default('public'),
+                    Select::make('status')
+                        ->label('Statut')
+                        ->options([
+                            'active' => 'Actif',
+                            'inactive' => 'Inactif',
+                            'draft' => 'Brouillon',
+                        ])
+                        ->default('draft'),
+                    FileUpload::make('preview_image')
+                        ->label('Image d\'aperçu')
                         ->image()
                         ->directory('templates'),
-                    Toggle::make('is_active')->label('Actif')->default(true),
-                    Toggle::make('is_default')->label('Par défaut')->default(false),
-                    Toggle::make('is_premium')->label('Premium')->default(false),
+                    TextInput::make('version')->label('Version')->default('1.0.0'),
+                    Toggle::make('is_featured')->label('Mis en avant')->default(false),
+                    TextInput::make('sort_order')->label('Ordre')->numeric()->default(1),
                 ]),
 
-            Section::make('Contenu HTML')
+            Section::make('Tags')
                 ->schema([
-                    Textarea::make('html_content')
-                        ->label('HTML')
+                    TagsInput::make('tags')->label('Tags')->columnSpanFull(),
+                ]),
+
+            Section::make('CSS personnalisé')
+                ->schema([
+                    Textarea::make('custom_css')
+                        ->label('CSS')
                         ->rows(10)
                         ->columnSpanFull(),
                 ]),
 
-            Section::make('Styles CSS')
+            Section::make('JavaScript personnalisé')
                 ->schema([
-                    Textarea::make('css_content')
-                        ->label('CSS')
+                    Textarea::make('custom_js')
+                        ->label('JavaScript')
                         ->rows(10)
                         ->columnSpanFull(),
                 ]),
 
             Section::make('Configuration avancée')
                 ->schema([
-                    KeyValue::make('config')->label('Configuration')->columnSpanFull(),
-                    KeyValue::make('style_config')->label('Styles personnalisés')->columnSpanFull(),
-                    KeyValue::make('variables')->label('Variables')->columnSpanFull(),
+                    KeyValue::make('design_config')->label('Configuration design')->columnSpanFull(),
+                    KeyValue::make('layout_config')->label('Configuration layout')->columnSpanFull(),
+                    KeyValue::make('default_content')->label('Contenu par défaut')->columnSpanFull(),
                 ]),
         ]);
     }
@@ -105,7 +132,7 @@ class TemplateResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('thumbnail')
+                Tables\Columns\ImageColumn::make('preview_image')
                     ->label('Aperçu')
                     ->square(),
                 Tables\Columns\TextColumn::make('name')
@@ -114,7 +141,7 @@ class TemplateResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('type')
+                Tables\Columns\TextColumn::make('notification_type')
                     ->label('Type')
                     ->badge()
                     ->color(fn ($state) => match ($state) {
@@ -127,14 +154,26 @@ class TemplateResource extends Resource
                 Tables\Columns\TextColumn::make('category')
                     ->label('Catégorie')
                     ->badge(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->label('Actif')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('is_default')
-                    ->label('Défaut')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('is_premium')
-                    ->label('Premium')
+                Tables\Columns\TextColumn::make('visibility')
+                    ->label('Visibilité')
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'public' => 'success',
+                        'private' => 'warning',
+                        'system' => 'info',
+                        default => 'gray',
+                    }),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Statut')
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'active' => 'success',
+                        'inactive' => 'danger',
+                        'draft' => 'warning',
+                        default => 'gray',
+                    }),
+                Tables\Columns\IconColumn::make('is_featured')
+                    ->label('Vedette')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('notifications_count')
                     ->label('Utilisations')
@@ -148,7 +187,8 @@ class TemplateResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('type')
+                Tables\Filters\SelectFilter::make('notification_type')
+                    ->label('Type')
                     ->options([
                         'INFORMATIONAL' => 'Informational',
                         'COUPON' => 'Coupon',
@@ -157,13 +197,18 @@ class TemplateResource extends Resource
                     ]),
                 Tables\Filters\SelectFilter::make('category')
                     ->options([
-                        'default' => 'Par défaut',
-                        'ecommerce' => 'E-commerce',
-                        'saas' => 'SaaS',
-                        'marketing' => 'Marketing',
+                        'toast' => 'Toast',
+                        'card' => 'Card',
+                        'bar' => 'Bar',
+                        'modal' => 'Modal',
                     ]),
-                Tables\Filters\TernaryFilter::make('is_active')->label('Actif'),
-                Tables\Filters\TernaryFilter::make('is_premium')->label('Premium'),
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'active' => 'Actif',
+                        'inactive' => 'Inactif',
+                        'draft' => 'Brouillon',
+                    ]),
+                Tables\Filters\TernaryFilter::make('is_featured')->label('Mis en avant'),
             ])
             ->actions([
                 Action::make('view')
@@ -174,5 +219,49 @@ class TemplateResource extends Resource
                     ->label('Dupliquer')
                     ->icon('heroicon-o-document-duplicate')
                     ->action(function ($record) {
-                        $new = $record->replicate();
-                        $new->name = $record->name . ' (copie)';
+                        $record->duplicate();
+                    }),
+                Action::make('feature')
+                    ->label('Mettre en avant')
+                    ->icon('heroicon-o-star')
+                    ->color('warning')
+                    ->visible(fn ($record) => !$record->is_featured)
+                    ->action(fn ($record) => $record->feature()),
+                EditAction::make(),
+                DeleteAction::make(),
+            ])
+            ->bulkActions([
+                BulkActionGroup::make([
+                    Tables\Actions\BulkAction::make('activate')
+                        ->label('Activer')
+                        ->action(fn ($records) => $records->each->activate()),
+                    Tables\Actions\BulkAction::make('deactivate')
+                        ->label('Désactiver')
+                        ->action(fn ($records) => $records->each->deactivate()),
+                    DeleteBulkAction::make(),
+                ]),
+            ])
+            ->reorderable('sort_order')
+            ->defaultSort('sort_order');
+    }
+
+    public static function getRelations(): array
+    {
+        return [];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListTemplates::route('/'),
+            'create' => Pages\CreateTemplate::route('/create'),
+            'view' => Pages\ViewTemplate::route('/{record}'),
+            'edit' => Pages\EditTemplate::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('status', 'active')->count();
+    }
+}

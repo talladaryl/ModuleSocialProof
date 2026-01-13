@@ -3,10 +3,11 @@
 namespace Packages\SocialProof\Filament\Admin\Pages;
 
 use Filament\Pages\Dashboard as BaseDashboard;
+use BackedEnum;
 
 class AdminDashboard extends BaseDashboard
 {
-    protected static ?string $navigationIcon = 'heroicon-o-home';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-home';
     protected static ?string $navigationLabel = 'Dashboard';
     protected static ?string $title = 'Dashboard Admin SocialProof';
     protected static ?int $navigationSort = -2;
@@ -21,7 +22,7 @@ class AdminDashboard extends BaseDashboard
         ];
     }
 
-    public function getColumns(): int|string|array
+    public function getColumns(): array|int
     {
         return 2;
     }

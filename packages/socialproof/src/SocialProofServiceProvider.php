@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use Packages\SocialProof\Console\Commands\InstallSocialProofCommand;
 use Packages\SocialProof\Console\Commands\GenerateStatsCommand;
 use Packages\SocialProof\Filament\SocialProofPanelProvider;
+use Packages\SocialProof\Filament\Admin\AdminPanelProvider;
 use Packages\SocialProof\Services\EventEngine;
 use Packages\SocialProof\Services\NotificationService;
 use Packages\SocialProof\Services\WidgetService;
@@ -32,8 +33,9 @@ class SocialProofServiceProvider extends ServiceProvider
         // Merge package config
         $this->mergeConfigFrom(__DIR__.'/../config/socialproof.php', 'socialproof');
 
-        // Register Filament Panel Provider (un seul panel pour éviter les conflits)
+        // Register Filament Panel Providers
         $this->app->register(SocialProofPanelProvider::class);
+        $this->app->register(AdminPanelProvider::class);
         
 
         // Register services
