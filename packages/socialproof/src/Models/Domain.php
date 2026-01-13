@@ -4,6 +4,7 @@ namespace Packages\SocialProof\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Domain extends Model
 {
@@ -11,6 +12,8 @@ class Domain extends Model
     protected $primaryKey = 'domain_id';
 
     protected $fillable = [
+        'client_id',
+        'site_id',
         'user_id',
         'scheme',
         'host',
@@ -26,6 +29,16 @@ class Domain extends Model
         'last_datetime' => 'datetime',
         'type' => 'integer',
     ];
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class, 'client_id', 'client_id');
+    }
+
+    public function site(): BelongsTo
+    {
+        return $this->belongsTo(Site::class, 'site_id', 'site_id');
+    }
 
     public function campaigns(): HasMany
     {
