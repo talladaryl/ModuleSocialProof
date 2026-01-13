@@ -4,7 +4,7 @@ import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFo
  * @see packages/socialproof/src/Http/Controllers/Api/NotificationController.php:46
  * @route '/api/socialproof/widget/{apiKey}/notifications/{notification}/displayed'
  */
-export const displayed = (args: { apiKey: string | number, notification: string | number | { id: string | number } } | [apiKey: string | number, notification: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+export const displayed = (args: { apiKey: string | number, notification: number | { id: number } } | [apiKey: string | number, notification: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: displayed.url(args, options),
     method: 'post',
 })
@@ -19,7 +19,7 @@ displayed.definition = {
  * @see packages/socialproof/src/Http/Controllers/Api/NotificationController.php:46
  * @route '/api/socialproof/widget/{apiKey}/notifications/{notification}/displayed'
  */
-displayed.url = (args: { apiKey: string | number, notification: string | number | { id: string | number } } | [apiKey: string | number, notification: string | number | { id: string | number } ], options?: RouteQueryOptions) => {
+displayed.url = (args: { apiKey: string | number, notification: number | { id: number } } | [apiKey: string | number, notification: number | { id: number } ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
                     apiKey: args[0],
@@ -47,7 +47,7 @@ displayed.url = (args: { apiKey: string | number, notification: string | number 
  * @see packages/socialproof/src/Http/Controllers/Api/NotificationController.php:46
  * @route '/api/socialproof/widget/{apiKey}/notifications/{notification}/displayed'
  */
-displayed.post = (args: { apiKey: string | number, notification: string | number | { id: string | number } } | [apiKey: string | number, notification: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+displayed.post = (args: { apiKey: string | number, notification: number | { id: number } } | [apiKey: string | number, notification: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: displayed.url(args, options),
     method: 'post',
 })
@@ -57,7 +57,7 @@ displayed.post = (args: { apiKey: string | number, notification: string | number
  * @see packages/socialproof/src/Http/Controllers/Api/NotificationController.php:46
  * @route '/api/socialproof/widget/{apiKey}/notifications/{notification}/displayed'
  */
-    const displayedForm = (args: { apiKey: string | number, notification: string | number | { id: string | number } } | [apiKey: string | number, notification: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const displayedForm = (args: { apiKey: string | number, notification: number | { id: number } } | [apiKey: string | number, notification: number | { id: number } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: displayed.url(args, options),
         method: 'post',
     })
@@ -67,7 +67,7 @@ displayed.post = (args: { apiKey: string | number, notification: string | number
  * @see packages/socialproof/src/Http/Controllers/Api/NotificationController.php:46
  * @route '/api/socialproof/widget/{apiKey}/notifications/{notification}/displayed'
  */
-        displayedForm.post = (args: { apiKey: string | number, notification: string | number | { id: string | number } } | [apiKey: string | number, notification: string | number | { id: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        displayedForm.post = (args: { apiKey: string | number, notification: number | { id: number } } | [apiKey: string | number, notification: number | { id: number } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: displayed.url(args, options),
             method: 'post',
         })

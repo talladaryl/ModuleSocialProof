@@ -215,7 +215,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:76
  * @route '/socialproof/notifications/{notification}'
  */
-export const show = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const show = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -230,7 +230,7 @@ show.definition = {
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:76
  * @route '/socialproof/notifications/{notification}'
  */
-show.url = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions) => {
+show.url = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { notification: args }
     }
@@ -263,7 +263,7 @@ show.url = (args: { notification: string | number | { notification_id: string | 
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:76
  * @route '/socialproof/notifications/{notification}'
  */
-show.get = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+show.get = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -272,7 +272,7 @@ show.get = (args: { notification: string | number | { notification_id: string | 
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:76
  * @route '/socialproof/notifications/{notification}'
  */
-show.head = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+show.head = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -282,7 +282,7 @@ show.head = (args: { notification: string | number | { notification_id: string |
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:76
  * @route '/socialproof/notifications/{notification}'
  */
-    const showForm = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const showForm = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: show.url(args, options),
         method: 'get',
     })
@@ -292,7 +292,7 @@ show.head = (args: { notification: string | number | { notification_id: string |
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:76
  * @route '/socialproof/notifications/{notification}'
  */
-        showForm.get = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        showForm.get = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: show.url(args, options),
             method: 'get',
         })
@@ -301,7 +301,7 @@ show.head = (args: { notification: string | number | { notification_id: string |
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:76
  * @route '/socialproof/notifications/{notification}'
  */
-        showForm.head = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        showForm.head = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: show.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
@@ -317,7 +317,7 @@ show.head = (args: { notification: string | number | { notification_id: string |
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:128
  * @route '/socialproof/notifications/{notification}/edit'
  */
-export const edit = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const edit = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -332,7 +332,7 @@ edit.definition = {
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:128
  * @route '/socialproof/notifications/{notification}/edit'
  */
-edit.url = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions) => {
+edit.url = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { notification: args }
     }
@@ -365,7 +365,7 @@ edit.url = (args: { notification: string | number | { notification_id: string | 
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:128
  * @route '/socialproof/notifications/{notification}/edit'
  */
-edit.get = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+edit.get = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -374,7 +374,7 @@ edit.get = (args: { notification: string | number | { notification_id: string | 
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:128
  * @route '/socialproof/notifications/{notification}/edit'
  */
-edit.head = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+edit.head = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: edit.url(args, options),
     method: 'head',
 })
@@ -384,7 +384,7 @@ edit.head = (args: { notification: string | number | { notification_id: string |
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:128
  * @route '/socialproof/notifications/{notification}/edit'
  */
-    const editForm = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const editForm = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: edit.url(args, options),
         method: 'get',
     })
@@ -394,7 +394,7 @@ edit.head = (args: { notification: string | number | { notification_id: string |
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:128
  * @route '/socialproof/notifications/{notification}/edit'
  */
-        editForm.get = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        editForm.get = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: edit.url(args, options),
             method: 'get',
         })
@@ -403,7 +403,7 @@ edit.head = (args: { notification: string | number | { notification_id: string |
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:128
  * @route '/socialproof/notifications/{notification}/edit'
  */
-        editForm.head = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        editForm.head = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: edit.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
@@ -419,7 +419,7 @@ edit.head = (args: { notification: string | number | { notification_id: string |
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:143
  * @route '/socialproof/notifications/{notification}'
  */
-export const update = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+export const update = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -434,7 +434,7 @@ update.definition = {
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:143
  * @route '/socialproof/notifications/{notification}'
  */
-update.url = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions) => {
+update.url = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { notification: args }
     }
@@ -467,7 +467,7 @@ update.url = (args: { notification: string | number | { notification_id: string 
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:143
  * @route '/socialproof/notifications/{notification}'
  */
-update.put = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+update.put = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -476,7 +476,7 @@ update.put = (args: { notification: string | number | { notification_id: string 
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:143
  * @route '/socialproof/notifications/{notification}'
  */
-update.patch = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
+update.patch = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })
@@ -486,7 +486,7 @@ update.patch = (args: { notification: string | number | { notification_id: strin
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:143
  * @route '/socialproof/notifications/{notification}'
  */
-    const updateForm = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const updateForm = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: update.url(args, {
                     [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                         _method: 'PUT',
@@ -501,7 +501,7 @@ update.patch = (args: { notification: string | number | { notification_id: strin
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:143
  * @route '/socialproof/notifications/{notification}'
  */
-        updateForm.put = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        updateForm.put = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: update.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'PUT',
@@ -515,7 +515,7 @@ update.patch = (args: { notification: string | number | { notification_id: strin
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:143
  * @route '/socialproof/notifications/{notification}'
  */
-        updateForm.patch = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        updateForm.patch = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: update.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'PATCH',
@@ -531,7 +531,7 @@ update.patch = (args: { notification: string | number | { notification_id: strin
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:154
  * @route '/socialproof/notifications/{notification}'
  */
-export const destroy = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+export const destroy = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -546,7 +546,7 @@ destroy.definition = {
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:154
  * @route '/socialproof/notifications/{notification}'
  */
-destroy.url = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions) => {
+destroy.url = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { notification: args }
     }
@@ -579,7 +579,7 @@ destroy.url = (args: { notification: string | number | { notification_id: string
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:154
  * @route '/socialproof/notifications/{notification}'
  */
-destroy.delete = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+destroy.delete = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -589,7 +589,7 @@ destroy.delete = (args: { notification: string | number | { notification_id: str
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:154
  * @route '/socialproof/notifications/{notification}'
  */
-    const destroyForm = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const destroyForm = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: destroy.url(args, {
                     [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                         _method: 'DELETE',
@@ -604,7 +604,7 @@ destroy.delete = (args: { notification: string | number | { notification_id: str
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:154
  * @route '/socialproof/notifications/{notification}'
  */
-        destroyForm.delete = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        destroyForm.delete = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: destroy.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'DELETE',
@@ -620,7 +620,7 @@ destroy.delete = (args: { notification: string | number | { notification_id: str
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:165
  * @route '/socialproof/notifications/{notification}/duplicate'
  */
-export const duplicate = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+export const duplicate = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: duplicate.url(args, options),
     method: 'post',
 })
@@ -635,7 +635,7 @@ duplicate.definition = {
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:165
  * @route '/socialproof/notifications/{notification}/duplicate'
  */
-duplicate.url = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions) => {
+duplicate.url = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { notification: args }
     }
@@ -668,7 +668,7 @@ duplicate.url = (args: { notification: string | number | { notification_id: stri
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:165
  * @route '/socialproof/notifications/{notification}/duplicate'
  */
-duplicate.post = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+duplicate.post = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: duplicate.url(args, options),
     method: 'post',
 })
@@ -678,7 +678,7 @@ duplicate.post = (args: { notification: string | number | { notification_id: str
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:165
  * @route '/socialproof/notifications/{notification}/duplicate'
  */
-    const duplicateForm = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const duplicateForm = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: duplicate.url(args, options),
         method: 'post',
     })
@@ -688,7 +688,7 @@ duplicate.post = (args: { notification: string | number | { notification_id: str
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:165
  * @route '/socialproof/notifications/{notification}/duplicate'
  */
-        duplicateForm.post = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        duplicateForm.post = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: duplicate.url(args, options),
             method: 'post',
         })
@@ -754,7 +754,7 @@ bulkAction.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:214
  * @route '/socialproof/notifications/{notification}/reset-statistics'
  */
-export const resetStatistics = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+export const resetStatistics = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: resetStatistics.url(args, options),
     method: 'post',
 })
@@ -769,7 +769,7 @@ resetStatistics.definition = {
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:214
  * @route '/socialproof/notifications/{notification}/reset-statistics'
  */
-resetStatistics.url = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions) => {
+resetStatistics.url = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { notification: args }
     }
@@ -802,7 +802,7 @@ resetStatistics.url = (args: { notification: string | number | { notification_id
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:214
  * @route '/socialproof/notifications/{notification}/reset-statistics'
  */
-resetStatistics.post = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+resetStatistics.post = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: resetStatistics.url(args, options),
     method: 'post',
 })
@@ -812,7 +812,7 @@ resetStatistics.post = (args: { notification: string | number | { notification_i
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:214
  * @route '/socialproof/notifications/{notification}/reset-statistics'
  */
-    const resetStatisticsForm = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const resetStatisticsForm = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: resetStatistics.url(args, options),
         method: 'post',
     })
@@ -822,7 +822,7 @@ resetStatistics.post = (args: { notification: string | number | { notification_i
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:214
  * @route '/socialproof/notifications/{notification}/reset-statistics'
  */
-        resetStatisticsForm.post = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        resetStatisticsForm.post = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: resetStatistics.url(args, options),
             method: 'post',
         })
@@ -833,7 +833,7 @@ resetStatistics.post = (args: { notification: string | number | { notification_i
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:232
  * @route '/socialproof/notifications/{notification}/import-data'
  */
-export const importData = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+export const importData = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: importData.url(args, options),
     method: 'post',
 })
@@ -848,7 +848,7 @@ importData.definition = {
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:232
  * @route '/socialproof/notifications/{notification}/import-data'
  */
-importData.url = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions) => {
+importData.url = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { notification: args }
     }
@@ -881,7 +881,7 @@ importData.url = (args: { notification: string | number | { notification_id: str
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:232
  * @route '/socialproof/notifications/{notification}/import-data'
  */
-importData.post = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+importData.post = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: importData.url(args, options),
     method: 'post',
 })
@@ -891,7 +891,7 @@ importData.post = (args: { notification: string | number | { notification_id: st
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:232
  * @route '/socialproof/notifications/{notification}/import-data'
  */
-    const importDataForm = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const importDataForm = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: importData.url(args, options),
         method: 'post',
     })
@@ -901,7 +901,7 @@ importData.post = (args: { notification: string | number | { notification_id: st
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:232
  * @route '/socialproof/notifications/{notification}/import-data'
  */
-        importDataForm.post = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        importDataForm.post = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: importData.url(args, options),
             method: 'post',
         })
@@ -912,7 +912,7 @@ importData.post = (args: { notification: string | number | { notification_id: st
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:248
  * @route '/socialproof/notifications/{notification}/export-data'
  */
-export const exportData = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const exportData = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: exportData.url(args, options),
     method: 'get',
 })
@@ -927,7 +927,7 @@ exportData.definition = {
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:248
  * @route '/socialproof/notifications/{notification}/export-data'
  */
-exportData.url = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions) => {
+exportData.url = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { notification: args }
     }
@@ -960,7 +960,7 @@ exportData.url = (args: { notification: string | number | { notification_id: str
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:248
  * @route '/socialproof/notifications/{notification}/export-data'
  */
-exportData.get = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+exportData.get = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: exportData.url(args, options),
     method: 'get',
 })
@@ -969,7 +969,7 @@ exportData.get = (args: { notification: string | number | { notification_id: str
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:248
  * @route '/socialproof/notifications/{notification}/export-data'
  */
-exportData.head = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+exportData.head = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: exportData.url(args, options),
     method: 'head',
 })
@@ -979,7 +979,7 @@ exportData.head = (args: { notification: string | number | { notification_id: st
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:248
  * @route '/socialproof/notifications/{notification}/export-data'
  */
-    const exportDataForm = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const exportDataForm = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: exportData.url(args, options),
         method: 'get',
     })
@@ -989,7 +989,7 @@ exportData.head = (args: { notification: string | number | { notification_id: st
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:248
  * @route '/socialproof/notifications/{notification}/export-data'
  */
-        exportDataForm.get = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        exportDataForm.get = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: exportData.url(args, options),
             method: 'get',
         })
@@ -998,7 +998,7 @@ exportData.head = (args: { notification: string | number | { notification_id: st
  * @see packages/socialproof/src/Http/Controllers/NotificationExtendedController.php:248
  * @route '/socialproof/notifications/{notification}/export-data'
  */
-        exportDataForm.head = (args: { notification: string | number | { notification_id: string | number } } | [notification: string | number | { notification_id: string | number } ] | string | number | { notification_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        exportDataForm.head = (args: { notification: number | { notification_id: number } } | [notification: number | { notification_id: number } ] | number | { notification_id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: exportData.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',

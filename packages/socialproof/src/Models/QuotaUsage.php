@@ -47,9 +47,9 @@ class QuotaUsage extends Model
         return max(0, $this->limit - $this->used);
     }
 
-    public function increment(int $amount = 1): void
+    public function incrementUsage(int $amount = 1): void
     {
-        $this->increment('used', $amount);
+        parent::increment('used', $amount);
     }
 
     public static function getOrCreateForClient(int $clientId, string $quotaType, int $limit = 0): self

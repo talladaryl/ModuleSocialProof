@@ -109,10 +109,66 @@ LogoutControllerdc30b516b027e04d940de64e83e824a6.post = (options?: RouteQueryOpt
         })
     
     LogoutControllerdc30b516b027e04d940de64e83e824a6.form = LogoutControllerdc30b516b027e04d940de64e83e824a6Form
+    /**
+* @see \Filament\Auth\Http\Controllers\LogoutController::__invoke
+ * @see vendor/filament/filament/src/Auth/Http/Controllers/LogoutController.php:10
+ * @route '/admin/socialproof/logout'
+ */
+const LogoutController75fc8c3cf0a96452851af8c3f260c36f = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: LogoutController75fc8c3cf0a96452851af8c3f260c36f.url(options),
+    method: 'post',
+})
+
+LogoutController75fc8c3cf0a96452851af8c3f260c36f.definition = {
+    methods: ["post"],
+    url: '/admin/socialproof/logout',
+} satisfies RouteDefinition<["post"]>
+
+/**
+* @see \Filament\Auth\Http\Controllers\LogoutController::__invoke
+ * @see vendor/filament/filament/src/Auth/Http/Controllers/LogoutController.php:10
+ * @route '/admin/socialproof/logout'
+ */
+LogoutController75fc8c3cf0a96452851af8c3f260c36f.url = (options?: RouteQueryOptions) => {
+    return LogoutController75fc8c3cf0a96452851af8c3f260c36f.definition.url + queryParams(options)
+}
+
+/**
+* @see \Filament\Auth\Http\Controllers\LogoutController::__invoke
+ * @see vendor/filament/filament/src/Auth/Http/Controllers/LogoutController.php:10
+ * @route '/admin/socialproof/logout'
+ */
+LogoutController75fc8c3cf0a96452851af8c3f260c36f.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: LogoutController75fc8c3cf0a96452851af8c3f260c36f.url(options),
+    method: 'post',
+})
+
+    /**
+* @see \Filament\Auth\Http\Controllers\LogoutController::__invoke
+ * @see vendor/filament/filament/src/Auth/Http/Controllers/LogoutController.php:10
+ * @route '/admin/socialproof/logout'
+ */
+    const LogoutController75fc8c3cf0a96452851af8c3f260c36fForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: LogoutController75fc8c3cf0a96452851af8c3f260c36f.url(options),
+        method: 'post',
+    })
+
+            /**
+* @see \Filament\Auth\Http\Controllers\LogoutController::__invoke
+ * @see vendor/filament/filament/src/Auth/Http/Controllers/LogoutController.php:10
+ * @route '/admin/socialproof/logout'
+ */
+        LogoutController75fc8c3cf0a96452851af8c3f260c36fForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: LogoutController75fc8c3cf0a96452851af8c3f260c36f.url(options),
+            method: 'post',
+        })
+    
+    LogoutController75fc8c3cf0a96452851af8c3f260c36f.form = LogoutController75fc8c3cf0a96452851af8c3f260c36fForm
 
 const LogoutController = {
     '/admin/logout': LogoutController0bf9725898bf54069779505e96ede62a,
     '/socialproof-admin/logout': LogoutControllerdc30b516b027e04d940de64e83e824a6,
+    '/admin/socialproof/logout': LogoutController75fc8c3cf0a96452851af8c3f260c36f,
 }
 
 export default LogoutController
