@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Client extends Model
+class Client extends Authenticatable
 {
-    use SoftDeletes;
+    use SoftDeletes, Notifiable;
 
     protected $table = 'sp_clients';
     protected $primaryKey = 'client_id';
@@ -18,6 +20,7 @@ class Client extends Model
     protected $fillable = [
         'name',
         'email',
+        'password',
         'phone',
         'company',
         'website',
@@ -41,6 +44,8 @@ class Client extends Model
     ];
 
     protected $hidden = [
+        'password',
+        'remember_token',
         'billing_info',
     ];
 
@@ -172,11 +177,27 @@ class Client extends Model
         return max(0, $plan->max_monthly_events - $currentMonthEvents);
     }
 
-    private function getMonthlyEventsCount(): int
+    public function getMonthlyEventsCount(): int
     {
-        // Cette méthode devrait calculer le nombre d'événements du mois en cours
-        // Pour l'instant, on retourne 0
-        return 0;
+        return Event::where('client_id', $this->client_id)
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->count();
+    }
+
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class, 'client_id', 'client_id');
+    }
+
+    public function conversions(): HasMany
+    {
+        return $this->hasMany(TrackConversion::class, 'client_id', 'client_id');
+    }
+
+    public function trackNotifications(): HasMany
+    {
+        return $this->hasMany(TrackNotification::class, 'client_id', 'client_id');
     }
 
     // Status constants

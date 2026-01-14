@@ -36,6 +36,7 @@ class SocialProofServiceProvider extends ServiceProvider
         // Register Filament Panel Providers
         $this->app->register(SocialProofPanelProvider::class);
         $this->app->register(AdminPanelProvider::class);
+        $this->app->register(ClientPanelProvider::class);
         
 
         // Register services
