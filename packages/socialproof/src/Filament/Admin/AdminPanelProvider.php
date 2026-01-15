@@ -59,19 +59,27 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->authGuard('web')
-            ->brandName('SocialProof Admin')
+            ->brandName('SocialProof')
             ->brandLogo(null)
             ->favicon('/favicon.ico')
-            ->sidebarCollapsibleOnDesktop()
+            ->topNavigation()
             ->navigationGroups([
-                'Dashboard',
-                'Clients & Abonnements',
-                'Sites & Teams',
-                'Social Proof',
-                'Templates & Règles',
-                'Tracking & Analytics',
-                'API & Sécurité',
-                'Système',
+                NavigationGroup::make()
+                    ->label('Dashboard'),
+                NavigationGroup::make()
+                    ->label('Clients & Abonnements'),
+                NavigationGroup::make()
+                    ->label('Sites & Teams'),
+                NavigationGroup::make()
+                    ->label('Social Proof'),
+                NavigationGroup::make()
+                    ->label('Templates & Règles'),
+                NavigationGroup::make()
+                    ->label('Tracking & Analytics'),
+                NavigationGroup::make()
+                    ->label('API & Sécurité'),
+                NavigationGroup::make()
+                    ->label('Système'),
             ])
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s');

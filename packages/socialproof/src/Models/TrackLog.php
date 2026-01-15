@@ -18,7 +18,7 @@ class TrackLog extends Model
 
     public function campaign(): BelongsTo
     {
-        return $this->belongsTo(Campaign::class, 'campaign_id', 'campaign_id');
+        return $this->belongsTo(Campaign::class, 'campaign_id', 'id');
     }
 
     public function scopeForUser($query, $userId)

@@ -164,11 +164,67 @@ LogoutController75fc8c3cf0a96452851af8c3f260c36f.post = (options?: RouteQueryOpt
         })
     
     LogoutController75fc8c3cf0a96452851af8c3f260c36f.form = LogoutController75fc8c3cf0a96452851af8c3f260c36fForm
+    /**
+* @see \Filament\Auth\Http\Controllers\LogoutController::__invoke
+ * @see vendor/filament/filament/src/Auth/Http/Controllers/LogoutController.php:10
+ * @route '/client/logout'
+ */
+const LogoutController73080298a3328e045a4f8ed032f00205 = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: LogoutController73080298a3328e045a4f8ed032f00205.url(options),
+    method: 'post',
+})
+
+LogoutController73080298a3328e045a4f8ed032f00205.definition = {
+    methods: ["post"],
+    url: '/client/logout',
+} satisfies RouteDefinition<["post"]>
+
+/**
+* @see \Filament\Auth\Http\Controllers\LogoutController::__invoke
+ * @see vendor/filament/filament/src/Auth/Http/Controllers/LogoutController.php:10
+ * @route '/client/logout'
+ */
+LogoutController73080298a3328e045a4f8ed032f00205.url = (options?: RouteQueryOptions) => {
+    return LogoutController73080298a3328e045a4f8ed032f00205.definition.url + queryParams(options)
+}
+
+/**
+* @see \Filament\Auth\Http\Controllers\LogoutController::__invoke
+ * @see vendor/filament/filament/src/Auth/Http/Controllers/LogoutController.php:10
+ * @route '/client/logout'
+ */
+LogoutController73080298a3328e045a4f8ed032f00205.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: LogoutController73080298a3328e045a4f8ed032f00205.url(options),
+    method: 'post',
+})
+
+    /**
+* @see \Filament\Auth\Http\Controllers\LogoutController::__invoke
+ * @see vendor/filament/filament/src/Auth/Http/Controllers/LogoutController.php:10
+ * @route '/client/logout'
+ */
+    const LogoutController73080298a3328e045a4f8ed032f00205Form = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: LogoutController73080298a3328e045a4f8ed032f00205.url(options),
+        method: 'post',
+    })
+
+            /**
+* @see \Filament\Auth\Http\Controllers\LogoutController::__invoke
+ * @see vendor/filament/filament/src/Auth/Http/Controllers/LogoutController.php:10
+ * @route '/client/logout'
+ */
+        LogoutController73080298a3328e045a4f8ed032f00205Form.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: LogoutController73080298a3328e045a4f8ed032f00205.url(options),
+            method: 'post',
+        })
+    
+    LogoutController73080298a3328e045a4f8ed032f00205.form = LogoutController73080298a3328e045a4f8ed032f00205Form
 
 const LogoutController = {
     '/admin/logout': LogoutController0bf9725898bf54069779505e96ede62a,
     '/socialproof-admin/logout': LogoutControllerdc30b516b027e04d940de64e83e824a6,
     '/admin/socialproof/logout': LogoutController75fc8c3cf0a96452851af8c3f260c36f,
+    '/client/logout': LogoutController73080298a3328e045a4f8ed032f00205,
 }
 
 export default LogoutController

@@ -14,6 +14,8 @@ class Event extends Model
 
     protected $fillable = [
         'widget_id',
+        'client_id',
+        'site_id',
         'type',
         'data',
         'customer_name',
@@ -32,6 +34,16 @@ class Event extends Model
     public function widget(): BelongsTo
     {
         return $this->belongsTo(Widget::class);
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class, 'client_id', 'client_id');
+    }
+
+    public function site(): BelongsTo
+    {
+        return $this->belongsTo(Site::class, 'site_id', 'site_id');
     }
 
     public function scopeRecent($query, $minutes = 60)

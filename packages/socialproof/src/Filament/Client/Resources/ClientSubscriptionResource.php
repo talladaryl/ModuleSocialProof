@@ -144,10 +144,10 @@ class ClientSubscriptionResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->actions([
-                // Utilisation de ViewAction standard pour plus de simplicité
-                Tables\Actions\ViewAction::make()
+                Action::make('view')
                     ->label('Détails')
-                    ->icon('heroicon-o-eye'),
+                    ->icon('heroicon-o-eye')
+                    ->url(fn ($record) => static::getUrl('view', ['record' => $record])),
             ])
             ->bulkActions([]);
     }

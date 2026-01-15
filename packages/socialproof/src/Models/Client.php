@@ -77,7 +77,7 @@ class Client extends Authenticatable
         return $this->hasMany(Widget::class, 'client_id', 'client_id');
     }
 
-    public function notifications(): HasMany
+    public function notificationExtendeds(): HasMany
     {
         return $this->hasMany(NotificationExtended::class, 'client_id', 'client_id');
     }
@@ -161,7 +161,7 @@ class Client extends Authenticatable
         
         if ($plan->max_notifications === -1) return true;
         
-        return $this->notifications()->count() < $plan->max_notifications;
+        return $this->notificationExtendeds()->count() < $plan->max_notifications;
     }
 
     public function getRemainingMonthlyEvents(): int

@@ -11,6 +11,8 @@ class TrackConversion extends Model
 
     protected $fillable = [
         'user_id',
+        'client_id',
+        'site_id',
         'notification_id',
         'type',
         'data',
@@ -27,6 +29,16 @@ class TrackConversion extends Model
     public function notification(): BelongsTo
     {
         return $this->belongsTo(NotificationExtended::class, 'notification_id', 'notification_id');
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class, 'client_id', 'client_id');
+    }
+
+    public function site(): BelongsTo
+    {
+        return $this->belongsTo(Site::class, 'site_id', 'site_id');
     }
 
     public function scopeForUser($query, $userId)

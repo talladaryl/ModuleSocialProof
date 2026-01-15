@@ -4,6 +4,7 @@ namespace Packages\SocialProof\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -21,6 +22,9 @@ class Widget extends Model
         'is_active',
         'status',
         'user_id',
+        'client_id',
+        'site_id',
+        'campaign_id',
     ];
 
     protected $casts = [
@@ -32,6 +36,21 @@ class Widget extends Model
     protected $hidden = [
         'api_key',
     ];
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class, 'client_id', 'client_id');
+    }
+
+    public function site(): BelongsTo
+    {
+        return $this->belongsTo(Site::class, 'site_id', 'site_id');
+    }
+
+    public function campaign(): BelongsTo
+    {
+        return $this->belongsTo(Campaign::class, 'campaign_id', 'id');
+    }
 
     public function events(): HasMany
     {

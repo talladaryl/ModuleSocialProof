@@ -5,6 +5,10 @@ namespace Packages\SocialProof;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Blade;
+use Livewire\Livewire;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 use Packages\SocialProof\Console\Commands\InstallSocialProofCommand;
 use Packages\SocialProof\Console\Commands\GenerateStatsCommand;
 use Packages\SocialProof\Filament\SocialProofPanelProvider;
@@ -26,6 +30,7 @@ use Packages\SocialProof\Policies\CampaignPolicy;
 use Packages\SocialProof\Policies\NotificationExtendedPolicy;
 use Packages\SocialProof\Policies\DomainPolicy;
 use Packages\SocialProof\Policies\NotificationHandlerPolicy;
+use Packages\SocialProof\Livewire\LanguageSwitcher;
 
 class SocialProofServiceProvider extends ServiceProvider
 {
@@ -73,6 +78,15 @@ class SocialProofServiceProvider extends ServiceProvider
 
         // Load views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'socialproof');
+
+        // Register Livewire components
+        Livewire::component('language-switcher', LanguageSwitcher::class);
+
+        // Register render hooks for language switcher in topbar
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::USER_MENU_BEFORE,
+            fn () => view('socialproof::components.topbar-language-switcher'),
+        );
 
         // Register policies
         $this->registerPolicies();

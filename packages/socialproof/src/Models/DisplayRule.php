@@ -12,6 +12,8 @@ class DisplayRule extends Model
 
     protected $fillable = [
         'notification_id',
+        'client_id',
+        'widget_id',
         'name',
         'trigger_type',
         'trigger_config',
@@ -37,6 +39,16 @@ class DisplayRule extends Model
     public function notification(): BelongsTo
     {
         return $this->belongsTo(NotificationExtended::class, 'notification_id', 'notification_id');
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class, 'client_id', 'client_id');
+    }
+
+    public function widget(): BelongsTo
+    {
+        return $this->belongsTo(Widget::class, 'widget_id', 'id');
     }
 
     // Scopes

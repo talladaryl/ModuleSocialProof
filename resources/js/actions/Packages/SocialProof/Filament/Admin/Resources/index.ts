@@ -18,7 +18,6 @@ import TeamMemberResource from './TeamMemberResource'
 import TeamResource from './TeamResource'
 import TemplateResource from './TemplateResource'
 import TrackNotificationResource from './TrackNotificationResource'
-import WidgetResource from './WidgetResource'
 const Resources = {
     ApiKeyResource: Object.assign(ApiKeyResource, ApiKeyResource),
 AuditLogResource: Object.assign(AuditLogResource, AuditLogResource),
@@ -40,7 +39,6 @@ TeamMemberResource: Object.assign(TeamMemberResource, TeamMemberResource),
 TeamResource: Object.assign(TeamResource, TeamResource),
 TemplateResource: Object.assign(TemplateResource, TemplateResource),
 TrackNotificationResource: Object.assign(TrackNotificationResource, TrackNotificationResource),
-WidgetResource: Object.assign(WidgetResource, WidgetResource),
 }
 
 export default Resources

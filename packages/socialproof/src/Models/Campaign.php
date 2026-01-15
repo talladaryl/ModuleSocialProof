@@ -11,10 +11,11 @@ use Packages\SocialProof\Models\Site;
 class Campaign extends Model
 {
     protected $table = 'sp_campaigns';
-    protected $primaryKey = 'campaign_id';
+    // Utilise 'id' par défaut (pas besoin de spécifier $primaryKey)
 
     protected $fillable = [
         'user_id',
+        'client_id',
         'domain_id',
         'team_id',
         'site_id',
@@ -65,7 +66,12 @@ class Campaign extends Model
 
     public function notifications(): HasMany
     {
-        return $this->hasMany(NotificationExtended::class, 'campaign_id', 'campaign_id');
+        return $this->hasMany(NotificationExtended::class, 'campaign_id', 'id');
+    }
+
+    public function widgets(): HasMany
+    {
+        return $this->hasMany(Widget::class, 'campaign_id', 'id');
     }
 
     public function team(): BelongsTo
@@ -75,7 +81,12 @@ class Campaign extends Model
 
     public function site(): BelongsTo
     {
-        return $this->belongsTo(Site::class, 'site_id');
+        return $this->belongsTo(Site::class, 'site_id', 'site_id');
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class, 'client_id', 'client_id');
     }
 
     public function domain(): BelongsTo
@@ -85,12 +96,12 @@ class Campaign extends Model
 
     public function trackLogs(): HasMany
     {
-        return $this->hasMany(TrackLog::class, 'campaign_id', 'campaign_id');
+        return $this->hasMany(TrackLog::class, 'campaign_id', 'id');
     }
 
     public function trackNotifications(): HasMany
     {
-        return $this->hasMany(TrackNotification::class, 'campaign_id', 'campaign_id');
+        return $this->hasMany(TrackNotification::class, 'campaign_id', 'id');
     }
 
     public function generatePixelKey(): void

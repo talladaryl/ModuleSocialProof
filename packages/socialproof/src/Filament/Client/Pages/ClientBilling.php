@@ -27,7 +27,7 @@ class ClientBilling extends Page
         $client = Auth::guard('client')->user();
         
         $this->plans = Plan::where('is_active', true)
-            ->orderBy('price')
+            ->orderBy('price_monthly')
             ->get();
             
         $this->currentSubscription = $client->subscription;

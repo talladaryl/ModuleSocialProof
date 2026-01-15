@@ -8,6 +8,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Navigation\NavigationGroup;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -109,18 +110,24 @@ class ClientPanelProvider extends PanelProvider
                 Authenticate::class,
                 ClientTenantMiddleware::class,
             ])
-            ->brandName('SocialProof Dashboard')
+            ->brandName('SocialProof')
             ->brandLogo(fn () => auth('client')->user()?->settings['logo'] ?? null)
             ->favicon('/favicon.ico')
+            ->topNavigation()
             ->navigationGroups([
-                'Dashboard',
-                'Social Proof',
-                'Design',
-                'Tracking',
-                'Management',
-                'Account',
+                NavigationGroup::make()
+                    ->label('Dashboard'),
+                NavigationGroup::make()
+                    ->label('Social Proof'),
+                NavigationGroup::make()
+                    ->label('Design'),
+                NavigationGroup::make()
+                    ->label('Tracking'),
+                NavigationGroup::make()
+                    ->label('Management'),
+                NavigationGroup::make()
+                    ->label('Account'),
             ])
-            ->sidebarCollapsibleOnDesktop()
             ->maxContentWidth('full')
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s');

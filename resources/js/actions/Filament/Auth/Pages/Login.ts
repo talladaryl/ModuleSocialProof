@@ -233,11 +233,90 @@ Loginf2aa6934689eb84168f3e9cf7fdacf6f.head = (options?: RouteQueryOptions): Rout
         })
     
     Loginf2aa6934689eb84168f3e9cf7fdacf6f.form = Loginf2aa6934689eb84168f3e9cf7fdacf6fForm
+    /**
+* @see \Filament\Auth\Pages\Login::__invoke
+ * @see vendor/filament/filament/src/Auth/Pages/Login.php:7
+ * @route '/client/login'
+ */
+const Logine4baffe4a7f1dba0a331fcbf12d4aa7c = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: Logine4baffe4a7f1dba0a331fcbf12d4aa7c.url(options),
+    method: 'get',
+})
+
+Logine4baffe4a7f1dba0a331fcbf12d4aa7c.definition = {
+    methods: ["get","head"],
+    url: '/client/login',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Filament\Auth\Pages\Login::__invoke
+ * @see vendor/filament/filament/src/Auth/Pages/Login.php:7
+ * @route '/client/login'
+ */
+Logine4baffe4a7f1dba0a331fcbf12d4aa7c.url = (options?: RouteQueryOptions) => {
+    return Logine4baffe4a7f1dba0a331fcbf12d4aa7c.definition.url + queryParams(options)
+}
+
+/**
+* @see \Filament\Auth\Pages\Login::__invoke
+ * @see vendor/filament/filament/src/Auth/Pages/Login.php:7
+ * @route '/client/login'
+ */
+Logine4baffe4a7f1dba0a331fcbf12d4aa7c.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: Logine4baffe4a7f1dba0a331fcbf12d4aa7c.url(options),
+    method: 'get',
+})
+/**
+* @see \Filament\Auth\Pages\Login::__invoke
+ * @see vendor/filament/filament/src/Auth/Pages/Login.php:7
+ * @route '/client/login'
+ */
+Logine4baffe4a7f1dba0a331fcbf12d4aa7c.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: Logine4baffe4a7f1dba0a331fcbf12d4aa7c.url(options),
+    method: 'head',
+})
+
+    /**
+* @see \Filament\Auth\Pages\Login::__invoke
+ * @see vendor/filament/filament/src/Auth/Pages/Login.php:7
+ * @route '/client/login'
+ */
+    const Logine4baffe4a7f1dba0a331fcbf12d4aa7cForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: Logine4baffe4a7f1dba0a331fcbf12d4aa7c.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \Filament\Auth\Pages\Login::__invoke
+ * @see vendor/filament/filament/src/Auth/Pages/Login.php:7
+ * @route '/client/login'
+ */
+        Logine4baffe4a7f1dba0a331fcbf12d4aa7cForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: Logine4baffe4a7f1dba0a331fcbf12d4aa7c.url(options),
+            method: 'get',
+        })
+            /**
+* @see \Filament\Auth\Pages\Login::__invoke
+ * @see vendor/filament/filament/src/Auth/Pages/Login.php:7
+ * @route '/client/login'
+ */
+        Logine4baffe4a7f1dba0a331fcbf12d4aa7cForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: Logine4baffe4a7f1dba0a331fcbf12d4aa7c.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    Logine4baffe4a7f1dba0a331fcbf12d4aa7c.form = Logine4baffe4a7f1dba0a331fcbf12d4aa7cForm
 
 const Login = {
     '/admin/login': Login047f8ce2fdeb7128b2677a1dd45b96b8,
     '/socialproof-admin/login': Loginf092ba29ebf50e4f7ea82a636d21e1df,
     '/admin/socialproof/login': Loginf2aa6934689eb84168f3e9cf7fdacf6f,
+    '/client/login': Logine4baffe4a7f1dba0a331fcbf12d4aa7c,
 }
 
 export default Login

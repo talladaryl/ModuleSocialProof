@@ -18,7 +18,6 @@ import teamMembers from './team-members'
 import teams from './teams'
 import templates from './templates'
 import trackNotifications from './track-notifications'
-import widgets from './widgets'
 const resources = {
     apiKeys: Object.assign(apiKeys, apiKeys),
 auditLogs: Object.assign(auditLogs, auditLogs),
@@ -40,7 +39,6 @@ teamMembers: Object.assign(teamMembers, teamMembers),
 teams: Object.assign(teams, teams),
 templates: Object.assign(templates, templates),
 trackNotifications: Object.assign(trackNotifications, trackNotifications),
-widgets: Object.assign(widgets, widgets),
 }
 
 export default resources

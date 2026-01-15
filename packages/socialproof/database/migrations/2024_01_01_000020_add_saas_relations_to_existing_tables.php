@@ -22,7 +22,7 @@ return new class extends Migration
 
         // Ajouter les relations SaaS aux campaigns existantes
         Schema::table('sp_campaigns', function (Blueprint $table) {
-            $table->unsignedBigInteger('client_id')->nullable()->after('campaign_id');
+            $table->unsignedBigInteger('client_id')->nullable()->after('id');
             $table->unsignedBigInteger('site_id')->nullable()->after('client_id');
             
             $table->foreign('client_id')->references('client_id')->on('sp_clients')->onDelete('cascade');

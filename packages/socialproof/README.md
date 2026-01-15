@@ -1,56 +1,102 @@
-# SocialProof - Documentation d'accès aux Dashboards
+# SocialProof - Guide d'accès aux Dashboards
 
-## Accès aux Dashboards
+## 🚀 Accès aux Dashboards
 
 ### Dashboard Admin
-**URL:** `http://votre-domaine.com/admin`
+```
+http://votre-domaine.com/admin/socialproof
+```
+Panel d'administration complet pour gérer tous les clients, abonnements et configurations.
 
-**Authentification:** Guard `web` (utilisateurs Laravel standard)
-
-**Fonctionnalités:**
-- Gestion des clients
-- Gestion des campagnes
-- Gestion des plans d'abonnement
-- Statistiques globales (MRR, événements, conversions)
-- Monitoring des API Keys
-
----
+**Guard:** `web` (utilisateurs Laravel standard)
 
 ### Dashboard Client
-**URL:** `http://votre-domaine.com/client`
+```
+http://votre-domaine.com/client
+```
+Panel client pour gérer ses propres sites, widgets et campagnes.
 
-**Authentification:** Guard `client` (table `clients`)
-
-**Fonctionnalités:**
-
-| Section | URL | Description |
-|---------|-----|-------------|
-| Dashboard | `/client` | Vue d'ensemble avec statistiques |
-| Sites | `/client/client-sites` | Gestion des sites web |
-| Widgets | `/client/client-widgets` | Création et gestion des widgets |
-| Campagnes | `/client/client-campaigns` | Gestion des campagnes |
-| Notifications | `/client/client-notifications` | Configuration des notifications |
-| Templates | `/client/client-templates` | Modèles de notifications |
-| Règles d'affichage | `/client/client-display-rules` | Conditions d'affichage |
-| Événements | `/client/client-events` | Logs des événements trackés |
-| Conversions | `/client/client-conversions` | Suivi des conversions |
-| Logs Notifications | `/client/client-track-notifications` | Historique des notifications |
-| Clés API | `/client/client-api-keys` | Gestion des clés API |
-| Équipe | `/client/client-team-members` | Gestion des membres |
-| Abonnement | `/client/client-subscriptions` | Détails de l'abonnement |
-| Analytics | `/client/analytics` | Statistiques détaillées |
-| Widget Builder | `/client/widget-builder` | Constructeur de widgets |
-| Paramètres | `/client/settings` | Configuration du compte |
-| Facturation | `/client/billing` | Gestion de l'abonnement |
+**Guard:** `client` (table `sp_clients`)
 
 ---
 
-## Configuration requise
+## 📋 Commandes à exécuter
 
-### 1. Guards d'authentification (`config/auth.php`)
+### 1. Générer la clé d'application
+```bash
+php artisan key:generate
+```
+
+### 2. Créer la base de données SQLite
+```bash
+# Windows
+type nul > database/database.sqlite
+
+# Linux/Mac
+touch database/database.sqlite
+```
+
+### 3. Exécuter les migrations
+```bash
+php artisan migrate
+```
+
+### 4. Créer un utilisateur Admin
+```bash
+php artisan tinker
+```
+```php
+\App\Models\User::create([
+    'name' => 'Admin',
+    'email' => 'admin@example.com',
+    'password' => bcrypt('password'),
+    'email_verified_at' => now(),
+]);
+```
+
+### 5. Créer un compte Client (pour tester le dashboard client)
+```bash
+php artisan tinker
+```
+```php
+\Packages\SocialProof\Models\Client::create([
+    'name' => 'Client Test',
+    'email' => 'client@example.com',
+    'password' => bcrypt('password'),
+    'status' => 'active',
+]);
+```
+
+### 6. Publier les assets Filament
+```bash
+php artisan filament:assets
+```
+
+### 7. Vider le cache
+```bash
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+php artisan route:clear
+```
+
+### 8. Lancer le serveur
+```bash
+php artisan serve
+```
+
+---
+
+## 🔐 Configuration de l'authentification
+
+Dans `config/auth.php`, ajoutez :
 
 ```php
 'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
+    ],
     'client' => [
         'driver' => 'session',
         'provider' => 'clients',
@@ -58,6 +104,10 @@
 ],
 
 'providers' => [
+    'users' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\User::class,
+    ],
     'clients' => [
         'driver' => 'eloquent',
         'model' => Packages\SocialProof\Models\Client::class,
@@ -65,49 +115,90 @@
 ],
 ```
 
-### 2. Enregistrement du ServiceProvider
+---
 
-Dans `config/app.php` ou via auto-discovery :
-```php
-Packages\SocialProof\SocialProofServiceProvider::class,
-```
+## 🗂️ Structure du Dashboard Admin
 
-### 3. Publication des assets (optionnel)
+| Groupe | Ressources |
+|--------|------------|
+| **Dashboard** | Vue d'ensemble avec statistiques |
+| **Clients & Abonnements** | Clients, Abonnements, Plans |
+| **Sites & Teams** | Sites, Teams, Membres |
+| **Social Proof** | Widgets, Campagnes, Notifications |
+| **Templates & Règles** | Templates, Règles d'affichage |
+| **Tracking & Analytics** | Événements, Conversions, Logs |
+| **API & Sécurité** | Clés API, IPs Bannies |
+
+---
+
+## 🗂️ Structure du Dashboard Client
+
+| Groupe | Pages/Ressources | URL |
+|--------|------------------|-----|
+| **Dashboard** | Vue d'ensemble | `/client` |
+| **Social Proof** | Sites | `/client/client-sites` |
+| | Widgets | `/client/client-widgets` |
+| | Campagnes | `/client/client-campaigns` |
+| | Notifications | `/client/client-notifications` |
+| | Templates | `/client/client-templates` |
+| | Règles d'affichage | `/client/client-display-rules` |
+| **Design** | Widget Builder | `/client/widget-builder` |
+| **Tracking** | Analytics | `/client/analytics` |
+| | Événements | `/client/client-events` |
+| | Conversions | `/client/client-conversions` |
+| | Logs Notifications | `/client/client-track-notifications` |
+| **Management** | Clés API | `/client/client-api-keys` |
+| | Équipe | `/client/client-team-members` |
+| **Account** | Abonnement | `/client/client-subscriptions` |
+| | Paramètres | `/client/settings` |
+| | Facturation | `/client/billing` |
+
+---
+
+## 📊 Widgets du Dashboard Client
+
+1. **ClientStatsWidget** - Widgets actifs, Notifications, Conversions, Taux de clic, Événements
+2. **ClientQuotaWidget** - Utilisation des quotas du plan
+3. **ClientConversionsChartWidget** - Graphique des conversions sur 30 jours
+4. **ClientRecentEventsWidget** - Événements récents
+
+---
+
+## 🔧 Fichiers de configuration
+
+| Dashboard | Fichier |
+|-----------|---------|
+| Admin | `packages/socialproof/src/Filament/Admin/AdminPanelProvider.php` |
+| Client | `packages/socialproof/src/Filament/ClientPanelProvider.php` |
+
+---
+
+## 🐛 Dépannage
+
+### Le dashboard client ne s'affiche pas
+1. Vérifiez que le guard `client` est configuré dans `config/auth.php`
+2. Vérifiez les routes : `php artisan route:list | grep client`
+3. Vérifiez que le ServiceProvider est enregistré
+
+### Erreur "Guard [client] is not defined"
+Ajoutez la configuration du guard dans `config/auth.php` (voir section Configuration)
+
+### Erreur de namespace
 ```bash
-php artisan vendor:publish --tag=socialproof-views
-php artisan vendor:publish --tag=socialproof-config
+composer dump-autoload
+```
+
+### Erreur de migration
+```bash
+php artisan migrate:fresh --path=packages/socialproof/database/migrations
 ```
 
 ---
 
-## Création d'un compte client (pour tests)
+## ⚡ Filament 4
 
-```php
-use Packages\SocialProof\Models\Client;
-use Illuminate\Support\Facades\Hash;
-
-Client::create([
-    'name' => 'Test Client',
-    'email' => 'client@example.com',
-    'password' => Hash::make('password'),
-    'status' => 'active',
-]);
-```
-
----
-
-## Structure des fichiers
-
-```
-packages/socialproof/src/Filament/
-├── AdminPanelProvider.php      # Configuration panel Admin
-├── ClientPanelProvider.php     # Configuration panel Client
-├── Admin/
-│   ├── Pages/
-│   ├── Resources/
-│   └── Widgets/
-└── Client/
-    ├── Pages/
-    ├── Resources/
-    └── Widgets/
-```
+Ce package utilise Filament 4 avec :
+- `Filament\Schemas\Schema` pour les formulaires
+- `Filament\Schemas\Components\Section` pour les sections
+- Propriétés non-statiques pour les widgets (`$heading`, `$view`, `$pollingInterval`)
+- Support des notifications en base de données
