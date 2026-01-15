@@ -22,15 +22,19 @@ class Client extends Authenticatable
         'email',
         'password',
         'phone',
+        'company_name',
         'company',
+        'address',
         'website',
         'country',
         'timezone',
         'language',
+        'currency',
         'avatar',
         'email_verified_at',
         'status',
         'last_login_at',
+        'preferences',
         'settings',
         'billing_info',
         'notes',
@@ -39,7 +43,7 @@ class Client extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
-        'settings' => 'array',
+        'preferences' => 'array',
         'billing_info' => 'array',
     ];
 
@@ -48,6 +52,79 @@ class Client extends Authenticatable
         'remember_token',
         'billing_info',
     ];
+
+    public function getCompanyAttribute(): ?string
+    {
+        return $this->attributes['company'] ?? $this->attributes['company_name'] ?? null;
+    }
+
+    public function setCompanyAttribute($value): void
+    {
+        $this->attributes['company_name'] = $value;
+    }
+
+    public function getSettingsAttribute(): array
+    {
+        $preferences = $this->preferences ?? [];
+        return is_array($preferences) ? $preferences : [];
+    }
+
+    public function setSettingsAttribute($value): void
+    {
+        $preferences = $this->preferences ?? [];
+        $preferences = is_array($preferences) ? $preferences : [];
+        $value = is_array($value) ? $value : [];
+
+        $this->setAttribute('preferences', array_merge($preferences, $value));
+    }
+
+    public function getWebsiteAttribute(): ?string
+    {
+        if (array_key_exists('website', $this->attributes)) {
+            return $this->attributes['website'];
+        }
+
+        $preferences = $this->preferences ?? [];
+        return is_array($preferences) ? ($preferences['website'] ?? null) : null;
+    }
+
+    public function setWebsiteAttribute($value): void
+    {
+        $preferences = $this->preferences ?? [];
+        $preferences = is_array($preferences) ? $preferences : [];
+
+        if ($value === null || $value === '') {
+            unset($preferences['website']);
+        } else {
+            $preferences['website'] = $value;
+        }
+
+        $this->setAttribute('preferences', $preferences);
+    }
+
+    public function getNotesAttribute(): ?string
+    {
+        if (array_key_exists('notes', $this->attributes)) {
+            return $this->attributes['notes'];
+        }
+
+        $preferences = $this->preferences ?? [];
+        return is_array($preferences) ? ($preferences['notes'] ?? null) : null;
+    }
+
+    public function setNotesAttribute($value): void
+    {
+        $preferences = $this->preferences ?? [];
+        $preferences = is_array($preferences) ? $preferences : [];
+
+        if ($value === null || $value === '') {
+            unset($preferences['notes']);
+        } else {
+            $preferences['notes'] = $value;
+        }
+
+        $this->setAttribute('preferences', $preferences);
+    }
 
     // Relations
     public function subscription(): HasOne

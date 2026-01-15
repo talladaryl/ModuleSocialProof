@@ -4,6 +4,7 @@ namespace Packages\SocialProof\Filament\Admin\Resources\ClientResource\RelationM
 
 use Filament\Forms;
 use Filament\Tables;
+use Filament\Actions;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 
@@ -32,14 +33,14 @@ class ApiKeysRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('last_used_at')->dateTime('d/m/Y H:i'),
                 Tables\Columns\TextColumn::make('expires_at')->dateTime('d/m/Y'),
             ])
-            ->headerActions([Tables\Actions\CreateAction::make()])
+            ->headerActions([Actions\CreateAction::make()])
             ->actions([
-                Tables\Actions\Action::make('revoke')
+                Actions\Action::make('revoke')
                     ->icon('heroicon-o-no-symbol')
                     ->color('danger')
                     ->requiresConfirmation()
                     ->action(fn ($record) => $record->update(['is_active' => false])),
-                Tables\Actions\DeleteAction::make(),
+                Actions\DeleteAction::make(),
             ]);
     }
 }

@@ -4,6 +4,7 @@ namespace Packages\SocialProof\Filament\Admin\Resources\ClientResource\RelationM
 
 use Filament\Forms;
 use Filament\Tables;
+use Filament\Actions;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 
@@ -32,7 +33,7 @@ class SitesRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('widgets_count')->counts('widgets')->badge(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime('d/m/Y'),
             ])
-            ->headerActions([Tables\Actions\CreateAction::make()])
-            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()]);
+            ->headerActions([Actions\CreateAction::make()])
+            ->actions([Actions\EditAction::make(), Actions\DeleteAction::make()]);
     }
 }
