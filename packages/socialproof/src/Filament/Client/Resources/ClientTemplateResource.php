@@ -2,23 +2,35 @@
 
 namespace Packages\SocialProof\Filament\Client\Resources;
 
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Toggle;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Packages\SocialProof\Models\Template;
 use Packages\SocialProof\Filament\Client\Resources\ClientTemplateResource\Pages;
+use UnitEnum;
+use BackedEnum;
 
 class ClientTemplateResource extends Resource
 {
     protected static ?string $model = Template::class;
-    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
-    protected static ?string $navigationLabel = 'Templates';
-    protected static ?string $navigationGroup = 'Social Proof';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-duplicate';
+    protected static string|UnitEnum|null $navigationGroup = 'Social Proof';
     protected static ?int $navigationSort = 5;
+    protected static ?string $navigationLabel = 'Templates';
 
     public static function getEloquentQuery(): Builder
     {
@@ -29,154 +41,144 @@ class ClientTemplateResource extends Resource
             });
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('Informations du template')
-                    ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->label('Nom')
-                            ->required()
-                            ->maxLength(255),
+        return $schema->schema([
+            Section::make('Configuration du Template')
+                ->columns(2)
+                ->schema([
+                    TextInput::make('name')
+                        ->label('Nom du template')
+                        ->required()
+                        ->maxLength(255),
 
-                        Forms\Components\Select::make('type')
-                            ->label('Type')
-                            ->options([
-                                'notification' => 'Notification',
-                                'popup' => 'Popup',
-                                'banner' => 'Bannière',
-                                'toast' => 'Toast',
-                            ])
-                            ->required()
-                            ->default('notification'),
+                    Select::make('type')
+                        ->label('Type d\'affichage')
+                        ->options([
+                            'notification' => 'Notification',
+                            'popup' => 'Popup',
+                            'banner' => 'Bannière',
+                            'toast' => 'Toast',
+                        ])
+                        ->required()
+                        ->default('notification'),
 
-                        Forms\Components\Select::make('category')
-                            ->label('Catégorie')
-                            ->options([
-                                'purchase' => 'Achat',
-                                'signup' => 'Inscription',
-                                'review' => 'Avis',
-                                'activity' => 'Activité',
-                                'custom' => 'Personnalisé',
-                            ])
-                            ->required()
-                            ->default('purchase'),
+                    Select::make('category')
+                        ->label('Catégorie d\'usage')
+                        ->options([
+                            'purchase' => 'Achat',
+                            'signup' => 'Inscription',
+                            'review' => 'Avis',
+                            'activity' => 'Activité',
+                            'custom' => 'Personnalisé',
+                        ])
+                        ->required()
+                        ->default('purchase'),
 
-                        Forms\Components\Textarea::make('description')
-                            ->label('Description')
-                            ->rows(2)
-                            ->maxLength(500),
-                    ])->columns(2),
+                    Toggle::make('is_active')
+                        ->label('Template activé')
+                        ->default(true)
+                        ->inline(false),
 
-                Forms\Components\Section::make('Contenu')
-                    ->schema([
-                        Forms\Components\TextInput::make('title_template')
-                            ->label('Template du titre')
-                            ->required()
-                            ->maxLength(255)
-                            ->helperText('Variables: {{customer_name}}, {{product_name}}, {{city}}, {{time_ago}}'),
+                    Textarea::make('description')
+                        ->label('Note interne / Description')
+                        ->rows(2)
+                        ->maxLength(500)
+                        ->columnSpanFull(),
+                ]),
 
-                        Forms\Components\Textarea::make('message_template')
-                            ->label('Template du message')
-                            ->required()
-                            ->rows(3)
-                            ->maxLength(1000)
-                            ->helperText('Variables: {{customer_name}}, {{product_name}}, {{amount}}, {{city}}, {{time_ago}}'),
+            Section::make('Contenu Dynamique')
+                ->description('Utilisez les variables entre doubles accolades.')
+                ->schema([
+                    TextInput::make('title_template')
+                        ->label('Structure du titre')
+                        ->required()
+                        ->maxLength(255)
+                        ->helperText('Variables: {{customer_name}}, {{product_name}}, {{city}}, {{time_ago}}'),
 
-                        Forms\Components\TextInput::make('icon')
-                            ->label('Icône')
-                            ->maxLength(100)
-                            ->placeholder('heroicon-o-shopping-cart'),
+                    Textarea::make('message_template')
+                        ->label('Structure du message')
+                        ->required()
+                        ->rows(3)
+                        ->maxLength(1000)
+                        ->helperText('Variables: {{amount}}, {{product_name}}, {{time_ago}}'),
 
-                        Forms\Components\TextInput::make('image_url')
-                            ->label('URL de l\'image')
-                            ->url()
-                            ->maxLength(500),
-                    ]),
+                    TextInput::make('icon')
+                        ->label('Icône (Heroicon)')
+                        ->placeholder('heroicon-o-shopping-cart'),
 
-                Forms\Components\Section::make('Style')
-                    ->schema([
-                        Forms\Components\Select::make('position')
-                            ->label('Position')
-                            ->options([
-                                'bottom-left' => 'Bas gauche',
-                                'bottom-right' => 'Bas droite',
-                                'top-left' => 'Haut gauche',
-                                'top-right' => 'Haut droite',
-                            ])
-                            ->default('bottom-left'),
+                    TextInput::make('image_url')
+                        ->label('URL de l\'image par défaut')
+                        ->url(),
+                ]),
 
-                        Forms\Components\ColorPicker::make('background_color')
-                            ->label('Couleur de fond')
-                            ->default('#ffffff'),
+            Section::make('Design & Animation')
+                ->columns(3)
+                ->schema([
+                    Select::make('position')
+                        ->label('Position écran')
+                        ->options([
+                            'bottom-left' => 'Bas gauche',
+                            'bottom-right' => 'Bas droite',
+                            'top-left' => 'Haut gauche',
+                            'top-right' => 'Haut droite',
+                        ])
+                        ->default('bottom-left'),
 
-                        Forms\Components\ColorPicker::make('text_color')
-                            ->label('Couleur du texte')
-                            ->default('#333333'),
+                    TextInput::make('border_radius')
+                        ->label('Rayon bordure')
+                        ->numeric()
+                        ->suffix('px')
+                        ->default(8),
 
-                        Forms\Components\ColorPicker::make('accent_color')
-                            ->label('Couleur d\'accent')
-                            ->default('#3b82f6'),
+                    Toggle::make('show_shadow')
+                        ->label('Ombre portée')
+                        ->default(true)
+                        ->inline(false),
 
-                        Forms\Components\TextInput::make('border_radius')
-                            ->label('Rayon de bordure')
-                            ->numeric()
-                            ->default(8)
-                            ->suffix('px'),
+                    ColorPicker::make('background_color')
+                        ->label('Fond')
+                        ->default('#ffffff'),
 
-                        Forms\Components\Toggle::make('show_shadow')
-                            ->label('Afficher l\'ombre')
-                            ->default(true),
-                    ])->columns(3),
+                    ColorPicker::make('text_color')
+                        ->label('Texte')
+                        ->default('#333333'),
 
-                Forms\Components\Section::make('Animation')
-                    ->schema([
-                        Forms\Components\Select::make('animation_in')
-                            ->label('Animation d\'entrée')
-                            ->options([
-                                'fadeIn' => 'Fondu',
-                                'slideInLeft' => 'Glissement gauche',
-                                'slideInRight' => 'Glissement droite',
-                                'slideInUp' => 'Glissement haut',
-                                'slideInDown' => 'Glissement bas',
-                                'bounceIn' => 'Rebond',
-                            ])
-                            ->default('slideInUp'),
+                    ColorPicker::make('accent_color')
+                        ->label('Accentuation')
+                        ->default('#3b82f6'),
 
-                        Forms\Components\Select::make('animation_out')
-                            ->label('Animation de sortie')
-                            ->options([
-                                'fadeOut' => 'Fondu',
-                                'slideOutLeft' => 'Glissement gauche',
-                                'slideOutRight' => 'Glissement droite',
-                                'slideOutUp' => 'Glissement haut',
-                                'slideOutDown' => 'Glissement bas',
-                            ])
-                            ->default('fadeOut'),
+                    Select::make('animation_in')
+                        ->label('Entrée')
+                        ->options([
+                            'fadeIn' => 'Fondu',
+                            'slideInUp' => 'Glissement haut',
+                            'slideInDown' => 'Glissement bas',
+                            'bounceIn' => 'Rebond',
+                        ])->default('slideInUp'),
 
-                        Forms\Components\TextInput::make('display_duration')
-                            ->label('Durée d\'affichage')
-                            ->numeric()
-                            ->default(5000)
-                            ->suffix('ms'),
-                    ])->columns(3),
+                    Select::make('animation_out')
+                        ->label('Sortie')
+                        ->options([
+                            'fadeOut' => 'Fondu',
+                            'slideOutDown' => 'Glissement bas',
+                        ])->default('fadeOut'),
 
-                Forms\Components\Section::make('Statut')
-                    ->schema([
-                        Forms\Components\Toggle::make('is_active')
-                            ->label('Actif')
-                            ->default(true),
-                    ]),
-            ]);
+                    TextInput::make('display_duration')
+                        ->label('Durée (ms)')
+                        ->numeric()
+                        ->default(5000),
+                ]),
+        ]);
     }
 
-    public static function table(Table $table): Table
+    public static function table(Tables\Table $table): Tables\Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nom')
+                    ->description(fn ($record) => $record->description)
                     ->searchable()
                     ->sortable(),
 
@@ -191,66 +193,60 @@ class ClientTemplateResource extends Resource
                         default => 'gray',
                     }),
 
-                Tables\Columns\TextColumn::make('category')
-                    ->label('Catégorie')
-                    ->badge(),
-
                 Tables\Columns\IconColumn::make('is_global')
-                    ->label('Global')
-                    ->boolean(),
+                    ->label('Officiel')
+                    ->boolean()
+                    ->trueIcon('heroicon-s-check-badge')
+                    ->trueColor('primary')
+                    ->falseIcon('heroicon-o-user')
+                    ->falseColor('gray'),
 
-                Tables\Columns\IconColumn::make('is_active')
+                Tables\Columns\ToggleColumn::make('is_active')
                     ->label('Actif')
-                    ->boolean(),
+                    ->disabled(fn ($record) => $record->is_global),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Créé le')
                     ->dateTime('d/m/Y')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('type')
-                    ->label('Type')
-                    ->options([
-                        'notification' => 'Notification',
-                        'popup' => 'Popup',
-                        'banner' => 'Bannière',
-                        'toast' => 'Toast',
-                    ]),
-
-                Tables\Filters\SelectFilter::make('category')
-                    ->label('Catégorie')
-                    ->options([
-                        'purchase' => 'Achat',
-                        'signup' => 'Inscription',
-                        'review' => 'Avis',
-                        'activity' => 'Activité',
-                        'custom' => 'Personnalisé',
-                    ]),
-
+                Tables\Filters\SelectFilter::make('type'),
                 Tables\Filters\TernaryFilter::make('is_global')
-                    ->label('Templates globaux'),
+                    ->label('Source')
+                    ->placeholder('Tous les templates')
+                    ->trueLabel('Templates globaux')
+                    ->falseLabel('Mes templates'),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make()
+                // Action standardisée "Voir" avec l'icône o-eye
+                Action::make('view_details')
+                    ->label('Voir')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn ($record) => static::getUrl('view', ['record' => $record])),
+
+                EditAction::make()
                     ->visible(fn ($record) => !$record->is_global),
-                Tables\Actions\Action::make('duplicate')
+
+                Action::make('duplicate')
                     ->label('Dupliquer')
                     ->icon('heroicon-o-document-duplicate')
+                    ->color('info')
                     ->action(function ($record) {
                         $newTemplate = $record->replicate();
-                        $newTemplate->name = $record->name . ' (copie)';
+                        $newTemplate->name = $record->name . ' (Copie)';
                         $newTemplate->is_global = false;
                         $newTemplate->client_id = Auth::guard('client')->user()->client_id;
                         $newTemplate->save();
                     }),
-                Tables\Actions\DeleteAction::make()
+
+                DeleteAction::make()
                     ->visible(fn ($record) => !$record->is_global),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

@@ -2,150 +2,184 @@
 
 namespace Packages\SocialProof\Filament\Client\Resources;
 
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\KeyValue;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Packages\SocialProof\Models\Widget;
 use Packages\SocialProof\Filament\Client\Resources\ClientWidgetResource\Pages;
+use UnitEnum;
+use BackedEnum;
 
 class ClientWidgetResource extends Resource
 {
     protected static ?string $model = Widget::class;
-    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
-    protected static ?string $navigationLabel = 'Widgets';
-    protected static ?string $navigationGroup = 'Social Proof';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-squares-2x2';
+    protected static string|UnitEnum|null $navigationGroup = 'Social Proof';
     protected static ?int $navigationSort = 2;
+    protected static ?string $navigationLabel = 'Widgets';
 
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->where('client_id', Auth::guard('client')->user()->client_id)
-            ->with(['site', 'template', 'campaign']);
+            ->where('client_id', Auth::guard('client')->user()->client_id);
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        $clientId = Auth::guard('client')->user()->client_id;
-        
-        return $form
-            ->schema([
-                Forms\Components\Section::make('Configuration du Widget')
-                    ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->label('Nom du widget')
-                            ->required()
-                            ->maxLength(255),
-                            
-                        Forms\Components\Select::make('site_id')
-                            ->label('Site')
-                            ->relationship('site', 'name', fn (Builder $query) => $query->where('client_id', $clientId))
-                            ->required()
-                            ->searchable()
-                            ->preload(),
-                            
-                        Forms\Components\Select::make('template_id')
-                            ->label('Template')
-                            ->relationship('template', 'name')
-                            ->required()
-                            ->searchable()
-                            ->preload(),
-                            
-                        Forms\Components\Select::make('campaign_id')
-                            ->label('Campagne')
-                            ->relationship('campaign', 'name', fn (Builder $query) => $query->where('client_id', $clientId))
-                            ->searchable()
-                            ->preload(),
-                            
-                        Forms\Components\Select::make('type')
-                            ->label('Type')
-                            ->options([
-                                'notification' => 'Notification',
-                                'counter' => 'Compteur',
-                                'testimonial' => 'Témoignage',
-                                'recent_activity' => 'Activité récente',
-                            ])
-                            ->required(),
-                            
-                        Forms\Components\Select::make('status')
-                            ->label('Statut')
-                            ->options([
-                                'active' => 'Actif',
-                                'inactive' => 'Inactif',
-                                'draft' => 'Brouillon',
-                            ])
-                            ->default('draft')
-                            ->required(),
-                    ]),
-                    
-                Forms\Components\Section::make('Apparence')
-                    ->schema([
-                        Forms\Components\Select::make('position')
-                            ->label('Position')
-                            ->options([
-                                'bottom-left' => 'Bas gauche',
-                                'bottom-right' => 'Bas droite',
-                                'top-left' => 'Haut gauche',
-                                'top-right' => 'Haut droite',
-                                'center' => 'Centre',
-                            ])
-                            ->default('bottom-left')
-                            ->required(),
-                            
-                        Forms\Components\ColorPicker::make('settings.primary_color')
-                            ->label('Couleur principale')
-                            ->default('#3b82f6'),
-                            
-                        Forms\Components\ColorPicker::make('settings.text_color')
-                            ->label('Couleur du texte')
-                            ->default('#ffffff'),
-                            
-                        Forms\Components\Toggle::make('settings.show_close_button')
-                            ->label('Bouton fermer')
-                            ->default(true),
-                            
-                        Forms\Components\Toggle::make('settings.auto_hide')
-                            ->label('Masquage automatique')
-                            ->default(true),
-                            
-                        Forms\Components\TextInput::make('settings.display_duration')
-                            ->label('Durée d\'affichage (secondes)')
-                            ->numeric()
-                            ->default(5)
-                            ->minValue(1)
-                            ->maxValue(60),
-                    ]),
-                    
-                Forms\Components\Section::make('Règles d\'affichage')
-                    ->schema([
-                        Forms\Components\TextInput::make('settings.delay')
-                            ->label('Délai avant affichage (secondes)')
-                            ->numeric()
-                            ->default(3)
-                            ->minValue(0),
-                            
-                        Forms\Components\TextInput::make('settings.frequency')
-                            ->label('Fréquence (secondes entre affichages)')
-                            ->numeric()
-                            ->default(30)
-                            ->minValue(5),
-                            
-                        Forms\Components\Toggle::make('settings.mobile_enabled')
-                            ->label('Actif sur mobile')
-                            ->default(true),
-                            
-                        Forms\Components\Toggle::make('settings.desktop_enabled')
-                            ->label('Actif sur desktop')
-                            ->default(true),
-                    ])
-                    ->collapsible(),
-            ]);
+        return $schema->schema([
+            Section::make('Informations du Widget')
+                ->columns(2)
+                ->schema([
+                    TextInput::make('name')
+                        ->label('Nom du widget')
+                        ->required()
+                        ->maxLength(255),
+
+                    Select::make('site_id')
+                        ->label('Site')
+                        ->relationship('site', 'name', fn($query) => 
+                            $query->where('client_id', Auth::guard('client')->user()->client_id)
+                        )
+                        ->required()
+                        ->searchable()
+                        ->preload(),
+
+                    Select::make('campaign_id')
+                        ->label('Campagne')
+                        ->relationship('campaign', 'name', fn($query) => 
+                            $query->where('client_id', Auth::guard('client')->user()->client_id)
+                        )
+                        ->searchable()
+                        ->preload(),
+
+                    Select::make('template_id')
+                        ->label('Template')
+                        ->relationship('template', 'name', fn($query) => 
+                            $query->where(function($q) {
+                                $q->where('client_id', Auth::guard('client')->user()->client_id)
+                                  ->orWhere('is_global', true);
+                            })
+                        )
+                        ->searchable()
+                        ->preload(),
+
+                    Textarea::make('description')
+                        ->label('Description')
+                        ->columnSpanFull()
+                        ->rows(2)
+                        ->maxLength(500),
+                ]),
+
+            Section::make('Configuration')
+                ->columns(2)
+                ->schema([
+                    Select::make('type')
+                        ->label('Type de widget')
+                        ->options([
+                            'notification' => 'Notification',
+                            'popup' => 'Popup',
+                            'banner' => 'Bannière',
+                            'toast' => 'Toast',
+                            'counter' => 'Compteur',
+                        ])
+                        ->required()
+                        ->default('notification'),
+
+                    Select::make('position')
+                        ->label('Position')
+                        ->options([
+                            'bottom-left' => 'Bas gauche',
+                            'bottom-right' => 'Bas droite',
+                            'top-left' => 'Haut gauche',
+                            'top-right' => 'Haut droite',
+                        ])
+                        ->default('bottom-left'),
+
+                    Select::make('status')
+                        ->label('Statut')
+                        ->options([
+                            'active' => 'Actif',
+                            'inactive' => 'Inactif',
+                            'draft' => 'Brouillon',
+                        ])
+                        ->default('draft')
+                        ->required(),
+
+                    TextInput::make('display_duration')
+                        ->label('Durée d\'affichage (ms)')
+                        ->numeric()
+                        ->default(5000),
+
+                    TextInput::make('delay')
+                        ->label('Délai avant affichage (ms)')
+                        ->numeric()
+                        ->default(3000),
+
+                    TextInput::make('frequency')
+                        ->label('Fréquence (secondes)')
+                        ->numeric()
+                        ->default(30),
+                ]),
+
+            Section::make('Apparence')
+                ->columns(3)
+                ->schema([
+                    ColorPicker::make('background_color')
+                        ->label('Couleur de fond')
+                        ->default('#ffffff'),
+
+                    ColorPicker::make('text_color')
+                        ->label('Couleur du texte')
+                        ->default('#333333'),
+
+                    ColorPicker::make('accent_color')
+                        ->label('Couleur d\'accent')
+                        ->default('#3b82f6'),
+
+                    Toggle::make('show_close_button')
+                        ->label('Bouton fermer')
+                        ->default(true),
+
+                    Toggle::make('show_powered_by')
+                        ->label('Afficher "Powered by"')
+                        ->default(true),
+
+                    Toggle::make('is_active')
+                        ->label('Widget actif')
+                        ->default(true),
+                ]),
+
+            Section::make('Paramètres avancés')
+                ->collapsible()
+                ->schema([
+                    KeyValue::make('settings')
+                        ->label('Configuration JSON')
+                        ->keyLabel('Clé')
+                        ->valueLabel('Valeur'),
+
+                    KeyValue::make('targeting')
+                        ->label('Ciblage')
+                        ->keyLabel('Règle')
+                        ->valueLabel('Valeur'),
+                ]),
+        ]);
     }
 
-    public static function table(Table $table): Table
+    public static function table(Tables\Table $table): Tables\Table
     {
         return $table
             ->columns([
@@ -153,90 +187,94 @@ class ClientWidgetResource extends Resource
                     ->label('Nom')
                     ->searchable()
                     ->sortable(),
-                    
+
                 Tables\Columns\TextColumn::make('site.name')
                     ->label('Site')
                     ->searchable()
                     ->sortable(),
-                    
+
                 Tables\Columns\TextColumn::make('type')
                     ->label('Type')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'notification' => 'info',
-                        'counter' => 'success',
-                        'testimonial' => 'warning',
-                        'recent_activity' => 'primary',
+                        'popup' => 'warning',
+                        'banner' => 'success',
+                        'toast' => 'primary',
+                        'counter' => 'gray',
                         default => 'gray',
                     }),
-                    
-                Tables\Columns\BadgeColumn::make('status')
+
+                Tables\Columns\TextColumn::make('status')
                     ->label('Statut')
-                    ->colors([
-                        'success' => 'active',
-                        'warning' => 'draft',
-                        'danger' => 'inactive',
-                    ]),
-                    
-                Tables\Columns\TextColumn::make('position')
-                    ->label('Position')
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'bottom-left' => 'Bas gauche',
-                        'bottom-right' => 'Bas droite',
-                        'top-left' => 'Haut gauche',
-                        'top-right' => 'Haut droite',
-                        'center' => 'Centre',
-                        default => $state,
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'active' => 'success',
+                        'inactive' => 'danger',
+                        'draft' => 'warning',
+                        default => 'gray',
                     }),
-                    
+
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label('Actif')
+                    ->boolean(),
+
+                Tables\Columns\TextColumn::make('views_count')
+                    ->label('Vues')
+                    ->numeric()
+                    ->sortable()
+                    ->default(0),
+
+                Tables\Columns\TextColumn::make('clicks_count')
+                    ->label('Clics')
+                    ->numeric()
+                    ->sortable()
+                    ->default(0),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Créé le')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable(),
+                    ->dateTime('d/m/Y')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                    ->label('Statut')
                     ->options([
                         'active' => 'Actif',
                         'inactive' => 'Inactif',
                         'draft' => 'Brouillon',
                     ]),
-                    
                 Tables\Filters\SelectFilter::make('type')
-                    ->label('Type')
                     ->options([
                         'notification' => 'Notification',
+                        'popup' => 'Popup',
+                        'banner' => 'Bannière',
+                        'toast' => 'Toast',
                         'counter' => 'Compteur',
-                        'testimonial' => 'Témoignage',
-                        'recent_activity' => 'Activité récente',
                     ]),
-                    
                 Tables\Filters\SelectFilter::make('site_id')
                     ->label('Site')
-                    ->relationship('site', 'name'),
+                    ->relationship('site', 'name', fn($query) => 
+                        $query->where('client_id', Auth::guard('client')->user()->client_id)
+                    ),
             ])
             ->actions([
-                Tables\Actions\Action::make('preview')
-                    ->label('Aperçu')
+                Action::make('view')
+                    ->label('Voir')
                     ->icon('heroicon-o-eye')
-                    ->url(fn ($record) => route('socialproof.widget.preview', $record))
+                    ->url(fn ($record) => static::getUrl('view', ['record' => $record])),
+                Action::make('preview')
+                    ->label('Prévisualiser')
+                    ->icon('heroicon-o-play')
+                    ->color('info')
+                    ->url(fn ($record) => route('widget.preview', $record))
                     ->openUrlInNewTab(),
-                    
-                Tables\Actions\Action::make('copy_code')
-                    ->label('Code d\'intégration')
-                    ->icon('heroicon-o-code-bracket')
-                    ->modalContent(fn ($record) => view('socialproof::client.widget-code', compact('record')))
-                    ->modalSubmitAction(false)
-                    ->modalCancelActionLabel('Fermer'),
-                    
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -253,6 +291,6 @@ class ClientWidgetResource extends Resource
 
     public static function canCreate(): bool
     {
-        return Auth::guard('client')->user()->canCreateWidgets();
+        return Auth::guard('client')->user()?->canCreateWidgets() ?? false;
     }
 }

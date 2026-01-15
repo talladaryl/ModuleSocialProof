@@ -2,127 +2,137 @@
 
 namespace Packages\SocialProof\Filament\Client\Resources;
 
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\ColorPicker;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Packages\SocialProof\Models\NotificationExtended;
 use Packages\SocialProof\Filament\Client\Resources\ClientNotificationResource\Pages;
+use UnitEnum;
+use BackedEnum;
 
 class ClientNotificationResource extends Resource
 {
     protected static ?string $model = NotificationExtended::class;
-    protected static ?string $navigationIcon = 'heroicon-o-bell';
-    protected static ?string $navigationLabel = 'Notifications';
-    protected static ?string $navigationGroup = 'Social Proof';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-bell';
+    protected static string|UnitEnum|null $navigationGroup = 'Social Proof';
     protected static ?int $navigationSort = 4;
+    protected static ?string $navigationLabel = 'Notifications';
 
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->where('client_id', auth('client')->user()->client_id);
+            ->where('client_id', Auth::guard('client')->user()->client_id);
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('Informations de base')
-                    ->schema([
-                        Forms\Components\Select::make('campaign_id')
-                            ->label('Campagne')
-                            ->relationship('campaign', 'name', fn($query) => 
-                                $query->where('client_id', auth('client')->user()->client_id)
-                            )
-                            ->required()
-                            ->searchable()
-                            ->preload(),
+        return $schema->schema([
+            Section::make('Configuration de base')
+                ->columns(2)
+                ->schema([
+                    Select::make('campaign_id')
+                        ->label('Campagne')
+                        ->relationship('campaign', 'name', fn($query) => 
+                            $query->where('client_id', Auth::guard('client')->user()->client_id)
+                        )
+                        ->required()
+                        ->searchable()
+                        ->preload(),
 
-                        Forms\Components\TextInput::make('title')
-                            ->label('Titre')
-                            ->required()
-                            ->maxLength(255),
+                    Select::make('status')
+                        ->label('Statut')
+                        ->options([
+                            'active' => 'Actif',
+                            'paused' => 'En pause',
+                            'draft' => 'Brouillon',
+                        ])
+                        ->required()
+                        ->default('draft'),
 
-                        Forms\Components\Textarea::make('message')
-                            ->label('Message')
-                            ->required()
-                            ->rows(3)
-                            ->maxLength(500),
+                    TextInput::make('title')
+                        ->label('Titre')
+                        ->required()
+                        ->maxLength(255)
+                        ->columnSpanFull(),
 
-                        Forms\Components\Select::make('type')
-                            ->label('Type')
-                            ->options([
-                                'conversion' => 'Conversion',
-                                'activity' => 'Activité',
-                                'review' => 'Avis',
-                                'signup' => 'Inscription',
-                                'custom' => 'Personnalisé',
-                            ])
-                            ->required()
-                            ->default('conversion'),
+                    Textarea::make('message')
+                        ->label('Message de la notification')
+                        ->required()
+                        ->rows(3)
+                        ->maxLength(500)
+                        ->columnSpanFull(),
+                ]),
 
-                        Forms\Components\Select::make('status')
-                            ->label('Statut')
-                            ->options([
-                                'active' => 'Actif',
-                                'paused' => 'En pause',
-                                'draft' => 'Brouillon',
-                            ])
-                            ->required()
-                            ->default('draft'),
-                    ])->columns(2),
+            Section::make('Apparence & Type')
+                ->columns(2)
+                ->schema([
+                    Select::make('type')
+                        ->label('Type de preuve sociale')
+                        ->options([
+                            'conversion' => 'Conversion',
+                            'activity' => 'Activité',
+                            'review' => 'Avis',
+                            'signup' => 'Inscription',
+                            'custom' => 'Personnalisé',
+                        ])
+                        ->required(),
 
-                Forms\Components\Section::make('Données')
-                    ->schema([
-                        Forms\Components\KeyValue::make('data')
-                            ->label('Données personnalisées')
-                            ->keyLabel('Clé')
-                            ->valueLabel('Valeur')
-                            ->reorderable(),
-                    ]),
+                    ColorPicker::make('color')
+                        ->label('Couleur d\'accentuation'),
 
-                Forms\Components\Section::make('Métadonnées')
-                    ->schema([
-                        Forms\Components\TextInput::make('url')
-                            ->label('URL')
-                            ->url()
-                            ->maxLength(500),
+                    TextInput::make('url')
+                        ->label('Lien de redirection (URL)')
+                        ->url()
+                        ->maxLength(500),
 
-                        Forms\Components\TextInput::make('image_url')
-                            ->label('URL de l\'image')
-                            ->url()
-                            ->maxLength(500),
+                    TextInput::make('image_url')
+                        ->label('URL de l\'image / Avatar')
+                        ->url()
+                        ->maxLength(500),
 
-                        Forms\Components\TextInput::make('icon')
-                            ->label('Icône')
-                            ->maxLength(100),
+                    TextInput::make('icon')
+                        ->label('Nom de l\'icône')
+                        ->maxLength(100),
+                ]),
 
-                        Forms\Components\ColorPicker::make('color')
-                            ->label('Couleur'),
-                    ])->columns(2),
-            ]);
+            Section::make('Données dynamiques')
+                ->schema([
+                    KeyValue::make('data')
+                        ->label('Variables personnalisées')
+                        ->keyLabel('Variable')
+                        ->valueLabel('Valeur par défaut')
+                        ->reorderable(),
+                ]),
+        ]);
     }
 
-    public static function table(Table $table): Table
+    public static function table(Tables\Table $table): Tables\Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('notification_id')
-                    ->label('ID')
+                Tables\Columns\TextColumn::make('title')
+                    ->label('Titre')
+                    ->searchable()
                     ->sortable()
-                    ->searchable(),
+                    ->limit(30),
 
                 Tables\Columns\TextColumn::make('campaign.name')
                     ->label('Campagne')
                     ->sortable()
                     ->searchable(),
-
-                Tables\Columns\TextColumn::make('title')
-                    ->label('Titre')
-                    ->searchable()
-                    ->limit(30),
 
                 Tables\Columns\TextColumn::make('type')
                     ->label('Type')
@@ -147,35 +157,27 @@ class ClientNotificationResource extends Resource
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Créé le')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable(),
+                    ->dateTime('d/m/Y')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('type')
-                    ->label('Type')
-                    ->options([
-                        'conversion' => 'Conversion',
-                        'activity' => 'Activité',
-                        'review' => 'Avis',
-                        'signup' => 'Inscription',
-                        'custom' => 'Personnalisé',
-                    ]),
-
-                Tables\Filters\SelectFilter::make('status')
-                    ->label('Statut')
-                    ->options([
-                        'active' => 'Actif',
-                        'paused' => 'En pause',
-                        'draft' => 'Brouillon',
-                    ]),
+                Tables\Filters\SelectFilter::make('type'),
+                Tables\Filters\SelectFilter::make('status'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                // Bouton Voir cohérent avec les autres ressources
+                Action::make('view')
+                    ->label('Voir')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn ($record) => static::getUrl('edit', ['record' => $record])),
+                
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');

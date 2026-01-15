@@ -5,7 +5,7 @@
 ### 1. Fichiers d'environnement disponibles
 
 - `.env` - Configuration de production/staging
-- `.env.local` - Configuration de développement local (SQLite)
+- `.env.local` - Configuration de développement local (mysql)
 - `.env.example` - Modèle de configuration
 
 ### 2. Configuration de la base de données

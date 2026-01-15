@@ -9,6 +9,7 @@ use Packages\SocialProof\Console\Commands\InstallSocialProofCommand;
 use Packages\SocialProof\Console\Commands\GenerateStatsCommand;
 use Packages\SocialProof\Filament\SocialProofPanelProvider;
 use Packages\SocialProof\Filament\Admin\AdminPanelProvider;
+use Packages\SocialProof\Filament\ClientPanelProvider;
 use Packages\SocialProof\Services\EventEngine;
 use Packages\SocialProof\Services\NotificationService;
 use Packages\SocialProof\Services\WidgetService;

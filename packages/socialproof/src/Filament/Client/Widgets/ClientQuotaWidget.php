@@ -7,12 +7,29 @@ use Illuminate\Support\Facades\Auth;
 
 class ClientQuotaWidget extends Widget
 {
+    // Utilisation du namespace de la vue
     protected static string $view = 'socialproof::client.widgets.quota-widget';
+
+    // Typage explicite pour Filament 4
     protected int | string | array $columnSpan = 'full';
 
-    public function getViewData(): array
+    /**
+     * Dans Filament 4, les données peuvent être passées via getData() 
+     * ou calculées directement dans la vue.
+     */
+    protected function getViewData(): array
     {
+        /** @var \Packages\SocialProof\Models\Client $client */
         $client = Auth::guard('client')->user();
+        
+        // Sécurité : si le client n'est pas trouvé ou déconnecté
+        if (!$client) {
+            return [
+                'plan' => null,
+                'quotas' => [],
+            ];
+        }
+
         $plan = $client->getCurrentPlan();
         
         if (!$plan) {
@@ -22,47 +39,38 @@ class ClientQuotaWidget extends Widget
             ];
         }
 
-        $quotas = [
-            'sites' => [
-                'label' => 'Sites',
-                'used' => $client->sites()->count(),
-                'limit' => $plan->max_sites,
-                'unlimited' => $plan->max_sites === -1,
-            ],
-            'widgets' => [
-                'label' => 'Widgets',
-                'used' => $client->widgets()->count(),
-                'limit' => $plan->max_widgets,
-                'unlimited' => $plan->max_widgets === -1,
-            ],
-            'notifications' => [
-                'label' => 'Notifications',
-                'used' => $client->notifications()->count(),
-                'limit' => $plan->max_notifications,
-                'unlimited' => $plan->max_notifications === -1,
-            ],
-            'monthly_events' => [
-                'label' => 'Événements mensuels',
-                'used' => $client->getMonthlyEventsCount(),
-                'limit' => $plan->max_monthly_events,
-                'unlimited' => $plan->max_monthly_events === -1,
-            ],
-            'team_members' => [
-                'label' => 'Membres équipe',
-                'used' => $client->teamMembers()->count(),
-                'limit' => $plan->max_team_members,
-                'unlimited' => $plan->max_team_members === -1,
-            ],
-            'api_keys' => [
-                'label' => 'Clés API',
-                'used' => $client->apiKeys()->count(),
-                'limit' => $plan->max_api_keys,
-                'unlimited' => $plan->max_api_keys === -1,
-            ],
+        // Optimisation : On définit les clés à surveiller
+        $quotaDefinitions = [
+            'sites'           => ['label' => 'Sites', 'relation' => 'sites', 'limit' => $plan->max_sites],
+            'widgets'         => ['label' => 'Widgets', 'relation' => 'widgets', 'limit' => $plan->max_widgets],
+            'notifications'   => ['label' => 'Notifications', 'relation' => 'notifications', 'limit' => $plan->max_notifications],
+            'monthly_events'  => ['label' => 'Événements mensuels', 'method' => 'getMonthlyEventsCount', 'limit' => $plan->max_monthly_events],
+            'team_members'    => ['label' => 'Membres équipe', 'relation' => 'teamMembers', 'limit' => $plan->max_team_members],
+            'api_keys'        => ['label' => 'Clés API', 'relation' => 'apiKeys', 'limit' => $plan->max_api_keys],
         ];
 
+        $quotas = [];
+
+        foreach ($quotaDefinitions as $key => $def) {
+            // On récupère la valeur "utilisée" soit par relation, soit par méthode
+            $used = isset($def['relation']) 
+                ? $client->{$def['relation']}()->count() 
+                : $client->{$def['method']}();
+
+            $quotas[$key] = [
+                'label'     => $def['label'],
+                'used'      => $used,
+                'limit'     => $def['limit'],
+                'unlimited' => (int) $def['limit'] === -1,
+                // On ajoute un pourcentage pour faciliter le rendu d'une barre de progression dans la vue
+                'percentage' => ((int) $def['limit'] === -1) 
+                    ? 0 
+                    : min(100, round(($used / $def['limit']) * 100)),
+            ];
+        }
+
         return [
-            'plan' => $plan,
+            'plan'   => $plan,
             'quotas' => $quotas,
         ];
     }

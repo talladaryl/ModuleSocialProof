@@ -2,24 +2,33 @@
 
 namespace Packages\SocialProof\Filament\Client\Resources;
 
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\CheckboxList;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Packages\SocialProof\Models\TeamMember;
 use Packages\SocialProof\Filament\Client\Resources\ClientTeamMemberResource\Pages;
+use UnitEnum;
+use BackedEnum;
 
 class ClientTeamMemberResource extends Resource
 {
     protected static ?string $model = TeamMember::class;
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    protected static ?string $navigationLabel = 'Équipe';
-    protected static ?string $navigationGroup = 'Management';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-user-group';
+    protected static string|UnitEnum|null $navigationGroup = 'Management';
     protected static ?int $navigationSort = 2;
+    protected static ?string $navigationLabel = 'Équipe';
 
     public static function getEloquentQuery(): Builder
     {
@@ -27,107 +36,100 @@ class ClientTeamMemberResource extends Resource
             ->where('client_id', Auth::guard('client')->user()->client_id);
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('Informations du membre')
-                    ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->label('Nom complet')
-                            ->required()
-                            ->maxLength(255),
+        return $schema->schema([
+            Section::make('Informations du membre')
+                ->columns(2)
+                ->schema([
+                    TextInput::make('name')
+                        ->label('Nom complet')
+                        ->required()
+                        ->maxLength(255),
 
-                        Forms\Components\TextInput::make('email')
-                            ->label('Email')
-                            ->email()
-                            ->required()
-                            ->maxLength(255)
-                            ->unique(ignoreRecord: true),
+                    TextInput::make('email')
+                        ->label('Email')
+                        ->email()
+                        ->required()
+                        ->maxLength(255)
+                        ->unique(ignoreRecord: true),
 
-                        Forms\Components\TextInput::make('password')
-                            ->label('Mot de passe')
-                            ->password()
-                            ->required(fn ($context) => $context === 'create')
-                            ->dehydrateStateUsing(fn ($state) => $state ? Hash::make($state) : null)
-                            ->dehydrated(fn ($state) => filled($state))
-                            ->helperText(fn ($context) => $context === 'edit' ? 'Laissez vide pour conserver le mot de passe actuel' : null),
+                    TextInput::make('password')
+                        ->label('Mot de passe')
+                        ->password()
+                        ->required(fn ($context) => $context === 'create')
+                        ->dehydrateStateUsing(fn ($state) => $state ? Hash::make($state) : null)
+                        ->dehydrated(fn ($state) => filled($state))
+                        ->helperText(fn ($context) => $context === 'edit' ? 'Laissez vide pour conserver le mot de passe actuel' : null),
 
-                        Forms\Components\Select::make('role')
-                            ->label('Rôle')
-                            ->options([
-                                'admin' => 'Administrateur',
-                                'manager' => 'Manager',
-                                'editor' => 'Éditeur',
-                                'viewer' => 'Lecteur',
-                            ])
-                            ->required()
-                            ->default('viewer'),
+                    Select::make('role')
+                        ->label('Rôle')
+                        ->options([
+                            'admin' => 'Administrateur',
+                            'manager' => 'Manager',
+                            'editor' => 'Éditeur',
+                            'viewer' => 'Lecteur',
+                        ])
+                        ->required()
+                        ->default('viewer'),
 
-                        Forms\Components\Select::make('status')
-                            ->label('Statut')
-                            ->options([
-                                'active' => 'Actif',
-                                'inactive' => 'Inactif',
-                                'pending' => 'En attente',
-                            ])
-                            ->default('pending')
-                            ->required(),
-                    ])->columns(2),
+                    Select::make('status')
+                        ->label('Statut')
+                        ->options([
+                            'active' => 'Actif',
+                            'inactive' => 'Inactif',
+                            'pending' => 'En attente',
+                        ])
+                        ->default('pending')
+                        ->required(),
+                ]),
 
-                Forms\Components\Section::make('Permissions')
-                    ->schema([
-                        Forms\Components\CheckboxList::make('permissions')
-                            ->label('Permissions spécifiques')
-                            ->options([
-                                'manage_sites' => 'Gérer les sites',
-                                'manage_widgets' => 'Gérer les widgets',
-                                'manage_campaigns' => 'Gérer les campagnes',
-                                'manage_notifications' => 'Gérer les notifications',
-                                'view_analytics' => 'Voir les analytics',
-                                'manage_api_keys' => 'Gérer les clés API',
-                                'manage_team' => 'Gérer l\'équipe',
-                                'manage_billing' => 'Gérer la facturation',
-                                'manage_settings' => 'Gérer les paramètres',
-                            ])
-                            ->columns(3)
-                            ->default(['view_analytics']),
-                    ]),
+            Section::make('Permissions & Accès')
+                ->schema([
+                    CheckboxList::make('permissions')
+                        ->label('Permissions spécifiques')
+                        ->options([
+                            'manage_sites' => 'Gérer les sites',
+                            'manage_widgets' => 'Gérer les widgets',
+                            'manage_campaigns' => 'Gérer les campagnes',
+                            'manage_notifications' => 'Gérer les notifications',
+                            'view_analytics' => 'Voir les analytics',
+                            'manage_api_keys' => 'Gérer les clés API',
+                            'manage_team' => 'Gérer l\'équipe',
+                            'manage_billing' => 'Gérer la facturation',
+                        ])
+                        ->columns(3)
+                        ->default(['view_analytics']),
 
-                Forms\Components\Section::make('Restrictions')
-                    ->schema([
-                        Forms\Components\Select::make('site_access')
-                            ->label('Accès aux sites')
-                            ->options([
-                                'all' => 'Tous les sites',
-                                'specific' => 'Sites spécifiques',
-                            ])
-                            ->default('all')
-                            ->live(),
+                    Select::make('site_access')
+                        ->label('Restriction d\'accès aux sites')
+                        ->options([
+                            'all' => 'Tous les sites du compte',
+                            'specific' => 'Sites spécifiques uniquement',
+                        ])
+                        ->default('all')
+                        ->live(),
 
-                        Forms\Components\Select::make('allowed_sites')
-                            ->label('Sites autorisés')
-                            ->multiple()
-                            ->relationship('allowedSites', 'name', fn ($query) => 
-                                $query->where('client_id', Auth::guard('client')->user()->client_id)
-                            )
-                            ->preload()
-                            ->visible(fn ($get) => $get('site_access') === 'specific'),
-                    ])->columns(2),
-            ]);
+                    Select::make('allowed_sites')
+                        ->label('Sélection des sites')
+                        ->multiple()
+                        ->relationship('allowedSites', 'name', fn ($query) => 
+                            $query->where('client_id', Auth::guard('client')->user()->client_id)
+                        )
+                        ->preload()
+                        ->visible(fn ($get) => $get('site_access') === 'specific')
+                        ->columnSpanFull(),
+                ]),
+        ]);
     }
 
-    public static function table(Table $table): Table
+    public static function table(Tables\Table $table): Tables\Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nom')
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('email')
-                    ->label('Email')
+                    ->label('Membre')
+                    ->description(fn ($record) => $record->email)
                     ->searchable()
                     ->sortable(),
 
@@ -149,59 +151,42 @@ class ClientTeamMemberResource extends Resource
                         default => $state,
                     }),
 
-                Tables\Columns\BadgeColumn::make('status')
+                Tables\Columns\TextColumn::make('status')
                     ->label('Statut')
-                    ->colors([
-                        'success' => 'active',
-                        'warning' => 'pending',
-                        'danger' => 'inactive',
-                    ]),
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'active' => 'success',
+                        'pending' => 'warning',
+                        'inactive' => 'danger',
+                        default => 'gray',
+                    }),
 
                 Tables\Columns\TextColumn::make('last_login_at')
-                    ->label('Dernière connexion')
+                    ->label('Dernière activité')
                     ->dateTime('d/m/Y H:i')
-                    ->placeholder('Jamais')
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Ajouté le')
-                    ->dateTime('d/m/Y')
+                    ->placeholder('Jamais connecté')
                     ->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('role')
-                    ->label('Rôle')
-                    ->options([
-                        'admin' => 'Administrateur',
-                        'manager' => 'Manager',
-                        'editor' => 'Éditeur',
-                        'viewer' => 'Lecteur',
-                    ]),
-
-                Tables\Filters\SelectFilter::make('status')
-                    ->label('Statut')
-                    ->options([
-                        'active' => 'Actif',
-                        'inactive' => 'Inactif',
-                        'pending' => 'En attente',
-                    ]),
+                Tables\Filters\SelectFilter::make('role'),
+                Tables\Filters\SelectFilter::make('status'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('resend_invite')
-                    ->label('Renvoyer invitation')
+                // Action personnalisée pour les invitations
+                Action::make('resend_invite')
+                    ->label('Réinviter')
                     ->icon('heroicon-o-envelope')
                     ->color('info')
                     ->visible(fn ($record) => $record->status === 'pending')
-                    ->action(function ($record) {
-                        // Logique d'envoi d'invitation
-                        // $record->notify(new TeamInviteNotification());
-                    }),
-                Tables\Actions\DeleteAction::make(),
+                    ->requiresConfirmation()
+                    ->action(fn ($record) => /* Logique d'envoi */ null),
+
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

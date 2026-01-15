@@ -2,23 +2,29 @@
 
 namespace Packages\SocialProof\Filament\Client\Resources;
 
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Actions\Action;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\KeyValue;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Packages\SocialProof\Models\Event;
 use Packages\SocialProof\Filament\Client\Resources\ClientEventResource\Pages;
+use UnitEnum;
+use BackedEnum;
 
 class ClientEventResource extends Resource
 {
     protected static ?string $model = Event::class;
-    protected static ?string $navigationIcon = 'heroicon-o-bolt';
-    protected static ?string $navigationLabel = 'Événements';
-    protected static ?string $navigationGroup = 'Tracking';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-bolt';
+    protected static string|UnitEnum|null $navigationGroup = 'Tracking';
     protected static ?int $navigationSort = 1;
+    protected static ?string $navigationLabel = 'Événements';
 
     public static function getEloquentQuery(): Builder
     {
@@ -26,14 +32,47 @@ class ClientEventResource extends Resource
             ->where('client_id', Auth::guard('client')->user()->client_id);
     }
 
-    public static function table(Table $table): Table
+    public static function form(Schema $schema): Schema
+    {
+        return $schema->schema([
+            Section::make('Détails de l\'Événement')
+                ->columns(2)
+                ->schema([
+                    TextInput::make('type')
+                        ->label('Type d\'événement')
+                        ->disabled(),
+
+                    Placeholder::make('site')
+                        ->label('Site Web')
+                        ->content(fn ($record) => $record->site?->name ?? 'N/A'),
+
+                    TextInput::make('created_at')
+                        ->label('Date de capture')
+                        ->disabled(),
+
+                    TextInput::make('ip_address')
+                        ->label('Adresse IP')
+                        ->disabled(),
+                ]),
+
+            Section::make('Données collectées (Payload)')
+                ->schema([
+                    KeyValue::make('data')
+                        ->label('Contenu de l\'événement')
+                        ->keyLabel('Propriété')
+                        ->valueLabel('Valeur')
+                        ->columnSpanFull(),
+                ]),
+        ]);
+    }
+
+    public static function table(Tables\Table $table): Tables\Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('event_id')
                     ->label('ID')
                     ->searchable()
-                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('type')
@@ -44,10 +83,8 @@ class ClientEventResource extends Resource
                         'signup' => 'info',
                         'view' => 'warning',
                         'click' => 'primary',
-                        'custom' => 'gray',
                         default => 'gray',
                     })
-                    ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('site.name')
@@ -60,19 +97,10 @@ class ClientEventResource extends Resource
                     ->default('Anonyme')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('data.product_name')
-                    ->label('Produit')
-                    ->limit(30)
-                    ->default('-'),
-
                 Tables\Columns\TextColumn::make('data.amount')
                     ->label('Montant')
                     ->money('EUR')
                     ->default('-'),
-
-                Tables\Columns\TextColumn::make('ip_address')
-                    ->label('IP')
-                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Date')
@@ -81,7 +109,6 @@ class ClientEventResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('type')
-                    ->label('Type')
                     ->options([
                         'purchase' => 'Achat',
                         'signup' => 'Inscription',
@@ -98,25 +125,20 @@ class ClientEventResource extends Resource
 
                 Tables\Filters\Filter::make('created_at')
                     ->form([
-                        Forms\Components\DatePicker::make('from')
-                            ->label('Du'),
-                        Forms\Components\DatePicker::make('until')
-                            ->label('Au'),
+                        DatePicker::make('from')->label('Du'),
+                        DatePicker::make('until')->label('Au'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
-                            ->when(
-                                $data['from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
+                            ->when($data['from'], fn ($q, $date) => $q->whereDate('created_at', '>=', $date))
+                            ->when($data['until'], fn ($q, $date) => $q->whereDate('created_at', '<=', $date));
                     }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Action::make('view')
+                    ->label('Voir')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn ($record) => static::getUrl('view', ['record' => $record])),
             ])
             ->bulkActions([])
             ->defaultSort('created_at', 'desc');
@@ -126,7 +148,7 @@ class ClientEventResource extends Resource
     {
         return [
             'index' => Pages\ListClientEvents::route('/'),
-            'view' => Pages\ViewClientEvent::route('/{record}'), 
+            'view' => Pages\ViewClientEvent::route('/{record}'),
         ];
     }
 

@@ -7,13 +7,24 @@ use Illuminate\Support\Facades\Auth;
 use Packages\SocialProof\Models\TrackNotification;
 use Packages\SocialProof\Models\TrackConversion;
 use Packages\SocialProof\Models\Event;
+// Imports nécessaires pour Filament 4
+use UnitEnum;
+use BackedEnum;
+use Illuminate\Support\Facades\DB;
 
 class ClientAnalytics extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
-    protected static string $view = 'socialproof::client.pages.analytics';
+    // Correction du type : BackedEnum
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-chart-bar';
+    
+    // Correction : Suppression du static
+    protected string $view = 'socialproof::client.pages.analytics';
+    
     protected static ?string $navigationLabel = 'Analytics';
-    protected static ?string $navigationGroup = 'Tracking';
+    
+    // Correction du type : UnitEnum
+    protected static UnitEnum|string|null $navigationGroup = 'Tracking';
+    
     protected static ?int $navigationSort = 1;
 
     public array $stats = [];
@@ -32,7 +43,8 @@ class ClientAnalytics extends Page
 
     private function loadAnalytics(): void
     {
-        $clientId = Auth::guard('client')->user()->client_id;
+        $user = Auth::guard('client')->user();
+        $clientId = $user->client_id;
         $days = (int) $this->period;
         $startDate = now()->subDays($days);
 
@@ -76,46 +88,48 @@ class ClientAnalytics extends Page
 
     private function getNotificationsChartData(int $clientId, int $days): array
     {
+        $startDate = now()->subDays($days - 1)->startOfDay();
+        
+        // Optimisation : une seule requête au lieu d'une boucle
+        $results = TrackNotification::where('client_id', $clientId)
+            ->where('created_at', '>=', $startDate)
+            ->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+            ->groupBy('date')
+            ->pluck('count', 'date');
+
         $data = [];
         $labels = [];
 
         for ($i = $days - 1; $i >= 0; $i--) {
             $date = now()->subDays($i)->format('Y-m-d');
             $labels[] = now()->subDays($i)->format('d/m');
-            
-            $count = TrackNotification::where('client_id', $clientId)
-                ->whereDate('created_at', $date)
-                ->count();
-                
-            $data[] = $count;
+            $data[] = $results[$date] ?? 0;
         }
 
-        return [
-            'labels' => $labels,
-            'data' => $data,
-        ];
+        return ['labels' => $labels, 'data' => $data];
     }
 
     private function getConversionsChartData(int $clientId, int $days): array
     {
+        $startDate = now()->subDays($days - 1)->startOfDay();
+
+        // Optimisation : une seule requête
+        $results = TrackConversion::where('client_id', $clientId)
+            ->where('created_at', '>=', $startDate)
+            ->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+            ->groupBy('date')
+            ->pluck('count', 'date');
+
         $data = [];
         $labels = [];
 
         for ($i = $days - 1; $i >= 0; $i--) {
             $date = now()->subDays($i)->format('Y-m-d');
             $labels[] = now()->subDays($i)->format('d/m');
-            
-            $count = TrackConversion::where('client_id', $clientId)
-                ->whereDate('created_at', $date)
-                ->count();
-                
-            $data[] = $count;
+            $data[] = $results[$date] ?? 0;
         }
 
-        return [
-            'labels' => $labels,
-            'data' => $data,
-        ];
+        return ['labels' => $labels, 'data' => $data];
     }
 
     private function getEventsByTypeData(int $clientId, $startDate): array

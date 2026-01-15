@@ -11,16 +11,20 @@ use Packages\SocialProof\Models\Event;
 class ClientRecentEventsWidget extends BaseWidget
 {
     protected static ?string $heading = 'Événements Récents';
+    
+    // Typage strict pour Filament 4
     protected int | string | array $columnSpan = 'full';
 
     public function table(Table $table): Table
     {
         return $table
             ->query(
+                // On retire le ->limit(10) d'ici pour laisser Filament gérer l'affichage
                 Event::where('client_id', Auth::guard('client')->user()->client_id)
                     ->latest()
-                    ->limit(10)
             )
+            // On limite via la pagination de Filament pour éviter les bugs de tri
+            ->defaultPaginationPageOption(10)
             ->columns([
                 Tables\Columns\TextColumn::make('type')
                     ->label('Type')
@@ -34,23 +38,24 @@ class ClientRecentEventsWidget extends BaseWidget
                     
                 Tables\Columns\TextColumn::make('data.customer_name')
                     ->label('Client')
-                    ->default('Anonyme'),
+                    ->placeholder('Anonyme'), // Utilisation de placeholder au lieu de default pour la clarté
                     
                 Tables\Columns\TextColumn::make('data.product_name')
                     ->label('Produit')
-                    ->limit(30),
+                    ->limit(30)
+                    ->placeholder('-'),
                     
                 Tables\Columns\TextColumn::make('data.amount')
                     ->label('Montant')
                     ->money('EUR')
-                    ->default('-'),
+                    ->placeholder('-'),
                     
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Date')
-                    ->dateTime('d/m/Y H:i')
+                    ->label('Il y a')
+                    ->since() // Plus dynamique pour un dashboard : affiche "il y a 2 min"
                     ->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
-            ->paginated(false);
+            ->paginated(false); // On garde paginated(false) car c'est un widget "aperçu"
     }
 }

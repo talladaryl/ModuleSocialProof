@@ -5,35 +5,42 @@ namespace Packages\SocialProof\Filament\Client\Widgets;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\Auth;
 use Packages\SocialProof\Models\TrackConversion;
+use Illuminate\Support\Carbon;
 
 class ClientConversionsChartWidget extends ChartWidget
 {
     protected static ?string $heading = 'Conversions des 30 derniers jours';
-    protected static string $color = 'info';
+    
+    // CORRECTION : On retire "static" et on utilise le bon typage (string | array | null)
+    protected string | array | null $color = 'info';
+    
+    // CORRECTION : La propriété héritée n'est pas statique non plus
     protected int | string | array $columnSpan = 2;
 
     protected function getData(): array
     {
         $clientId = Auth::guard('client')->user()->client_id;
+        $now = now(); 
         
         // Récupérer les conversions des 30 derniers jours
         $conversions = TrackConversion::where('client_id', $clientId)
-            ->where('created_at', '>=', now()->subDays(30))
+            ->where('created_at', '>=', $now->copy()->subDays(30))
             ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
             ->groupBy('date')
             ->orderBy('date')
             ->get();
 
-        // Créer un tableau avec tous les jours des 30 derniers jours
         $labels = [];
         $data = [];
         
         for ($i = 29; $i >= 0; $i--) {
-            $date = now()->subDays($i)->format('Y-m-d');
-            $labels[] = now()->subDays($i)->format('d/m');
+            $currentDate = $now->copy()->subDays($i);
+            $dateString = $currentDate->format('Y-m-d');
             
-            $conversion = $conversions->firstWhere('date', $date);
-            $data[] = $conversion ? $conversion->count : 0;
+            $labels[] = $currentDate->format('d/m');
+            
+            $conversion = $conversions->firstWhere('date', $dateString);
+            $data[] = $conversion ? (int) $conversion->count : 0;
         }
 
         return [
@@ -43,7 +50,8 @@ class ClientConversionsChartWidget extends ChartWidget
                     'data' => $data,
                     'borderColor' => '#3b82f6',
                     'backgroundColor' => 'rgba(59, 130, 246, 0.1)',
-                    'fill' => true,
+                    'fill' => 'start', 
+                    'tension' => 0.3, 
                 ],
             ],
             'labels' => $labels,
@@ -61,11 +69,20 @@ class ClientConversionsChartWidget extends ChartWidget
             'scales' => [
                 'y' => [
                     'beginAtZero' => true,
+                    'ticks' => [
+                        'stepSize' => 1,
+                    ],
                 ],
             ],
             'plugins' => [
                 'legend' => [
                     'display' => false,
+                ],
+            ],
+            'elements' => [
+                'point' => [
+                    'radius' => 3,
+                    'hitRadius' => 10,
                 ],
             ],
         ];

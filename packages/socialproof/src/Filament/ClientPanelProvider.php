@@ -1,15 +1,13 @@
 <?php
 
-namespace Packages\SocialProof\Filament\Client;
+namespace Packages\SocialProof\Filament;
 
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -39,6 +37,12 @@ use Packages\SocialProof\Filament\Client\Pages\ClientBilling;
 use Packages\SocialProof\Filament\Client\Pages\ClientAnalytics;
 use Packages\SocialProof\Filament\Client\Pages\WidgetBuilder;
 
+// Import des Widgets Client
+use Packages\SocialProof\Filament\Client\Widgets\ClientStatsWidget;
+use Packages\SocialProof\Filament\Client\Widgets\ClientQuotaWidget;
+use Packages\SocialProof\Filament\Client\Widgets\ClientConversionsChartWidget;
+use Packages\SocialProof\Filament\Client\Widgets\ClientRecentEventsWidget;
+
 // Import des Middlewares
 use Packages\SocialProof\Http\Middleware\ClientTenantMiddleware;
 
@@ -56,9 +60,10 @@ class ClientPanelProvider extends PanelProvider
                 'success' => Color::Green,
                 'warning' => Color::Orange,
                 'danger' => Color::Red,
+                'info' => Color::Sky,
             ])
             ->resources([
-                // Core Resources
+                // Core Resources - Social Proof
                 ClientSiteResource::class,
                 ClientWidgetResource::class,
                 ClientCampaignResource::class,
@@ -83,7 +88,12 @@ class ClientPanelProvider extends PanelProvider
                 ClientSettings::class,
                 ClientBilling::class,
             ])
-            ->discoverWidgets(in: __DIR__.'/Client/Widgets', for: 'Packages\\SocialProof\\Filament\\Client\\Widgets')
+            ->widgets([
+                ClientStatsWidget::class,
+                ClientQuotaWidget::class,
+                ClientConversionsChartWidget::class,
+                ClientRecentEventsWidget::class,
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -103,28 +113,16 @@ class ClientPanelProvider extends PanelProvider
             ->brandLogo(fn () => auth('client')->user()?->settings['logo'] ?? null)
             ->favicon('/favicon.ico')
             ->navigationGroups([
-                'Dashboard' => [
-                    'sort' => 1,
-                    'icon' => 'heroicon-o-home',
-                ],
-                'Social Proof' => [
-                    'sort' => 2,
-                    'icon' => 'heroicon-o-megaphone',
-                ],
-                'Tracking' => [
-                    'sort' => 3,
-                    'icon' => 'heroicon-o-chart-bar',
-                ],
-                'Management' => [
-                    'sort' => 4,
-                    'icon' => 'heroicon-o-cog-6-tooth',
-                ],
-                'Account' => [
-                    'sort' => 5,
-                    'icon' => 'heroicon-o-user-circle',
-                ],
+                'Dashboard',
+                'Social Proof',
+                'Design',
+                'Tracking',
+                'Management',
+                'Account',
             ])
             ->sidebarCollapsibleOnDesktop()
-            ->maxContentWidth('full');
+            ->maxContentWidth('full')
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('30s');
     }
 }

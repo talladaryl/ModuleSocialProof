@@ -5,17 +5,20 @@ namespace Packages\SocialProof\Filament\Client\Pages;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
-use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use BackedEnum;
+use UnitEnum;
 
 class ClientSettings extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
-    protected static string $view = 'socialproof::client.pages.settings';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string|UnitEnum|null $navigationGroup = 'Account';
     protected static ?string $navigationLabel = 'Paramètres';
-    protected static ?string $navigationGroup = 'Account';
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 3;
+    
+    protected string $view = 'socialproof::client.pages.settings';
 
     public ?array $profileData = [];
     public ?array $brandingData = [];
@@ -42,6 +45,15 @@ class ClientSettings extends Page
             'secondary_color' => $client->settings['secondary_color'] ?? '#6b7280',
             'custom_css' => $client->settings['custom_css'] ?? '',
         ]);
+    }
+
+    protected function getForms(): array
+    {
+        return [
+            'profileForm',
+            'brandingForm',
+            'securityForm',
+        ];
     }
 
     public function profileForm(Form $form): Form
@@ -169,23 +181,6 @@ class ClientSettings extends Page
             ->statePath('securityData');
     }
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Action::make('saveProfile')
-                ->label('Sauvegarder le profil')
-                ->action('saveProfile'),
-                
-            Action::make('saveBranding')
-                ->label('Sauvegarder le branding')
-                ->action('saveBranding'),
-                
-            Action::make('changePassword')
-                ->label('Changer le mot de passe')
-                ->action('changePassword'),
-        ];
-    }
-
     public function saveProfile(): void
     {
         $data = $this->profileForm->getState();
@@ -193,7 +188,10 @@ class ClientSettings extends Page
         
         $client->update($data);
         
-        $this->notify('success', 'Profil mis à jour avec succès');
+        Notification::make()
+            ->title('Profil mis à jour')
+            ->success()
+            ->send();
     }
 
     public function saveBranding(): void
@@ -206,7 +204,10 @@ class ClientSettings extends Page
         
         $client->update(['settings' => $settings]);
         
-        $this->notify('success', 'Branding mis à jour avec succès');
+        Notification::make()
+            ->title('Branding mis à jour')
+            ->success()
+            ->send();
     }
 
     public function changePassword(): void
@@ -220,6 +221,9 @@ class ClientSettings extends Page
         
         $this->securityForm->fill([]);
         
-        $this->notify('success', 'Mot de passe changé avec succès');
+        Notification::make()
+            ->title('Mot de passe changé')
+            ->success()
+            ->send();
     }
 }
