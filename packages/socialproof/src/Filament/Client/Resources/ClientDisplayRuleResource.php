@@ -26,7 +26,7 @@ use BackedEnum;
 class ClientDisplayRuleResource extends Resource
 {
     protected static ?string $model = DisplayRule::class;
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-adjustments-horizontal';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-funnel';
     protected static string|UnitEnum|null $navigationGroup = 'Social Proof';
     protected static ?int $navigationSort = 6;
     protected static ?string $navigationLabel = 'Règles d\'affichage';

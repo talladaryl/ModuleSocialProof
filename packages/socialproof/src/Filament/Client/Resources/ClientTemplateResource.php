@@ -27,7 +27,7 @@ use BackedEnum;
 class ClientTemplateResource extends Resource
 {
     protected static ?string $model = Template::class;
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-duplicate';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
     protected static string|UnitEnum|null $navigationGroup = 'Social Proof';
     protected static ?int $navigationSort = 5;
     protected static ?string $navigationLabel = 'Templates';

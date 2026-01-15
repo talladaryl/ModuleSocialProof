@@ -1,0 +1,67 @@
+/* SocialProof Custom Filament Theme */
+
+/* Navbar flottante avec bordures arrondies */
+.fi-topbar {
+    margin: 0.75rem 1rem 0 1rem !important;
+    border-radius: 1rem !important;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.dark .fi-topbar {
+    background: rgba(31, 41, 55, 0.95) !important;
+}
+
+/* Navigation centrée */
+.fi-topbar nav {
+    justify-content: center !important;
+}
+
+/* Espacement des items de navigation */
+.fi-topbar-nav {
+    gap: 0.5rem !important;
+}
+
+/* Style des liens de navigation */
+.fi-topbar-item {
+    border-radius: 0.5rem !important;
+    padding: 0.5rem 1rem !important;
+    transition: all 0.2s ease !important;
+}
+
+.fi-topbar-item:hover {
+    background-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+/* Brand logo à gauche */
+.fi-topbar-start {
+    flex-shrink: 0 !important;
+}
+
+/* Actions utilisateur à droite */
+.fi-topbar-end {
+    flex-shrink: 0 !important;
+}
+
+/* Contenu principal avec marge pour la navbar flottante */
+.fi-main-ctn {
+    padding-top: 1rem !important;
+}
+
+/* Dropdown menus arrondis */
+.fi-dropdown-panel {
+    border-radius: 0.75rem !important;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
+}
+
+/* Boutons arrondis dans la navbar */
+.fi-topbar button,
+.fi-topbar a {
+    border-radius: 0.5rem !important;
+}
+
+/* Animation smooth pour les transitions */
+.fi-topbar * {
+    transition: background-color 0.2s ease, color 0.2s ease !important;
+}

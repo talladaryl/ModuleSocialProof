@@ -130,6 +130,10 @@ class ClientPanelProvider extends PanelProvider
             ])
             ->maxContentWidth('full')
             ->databaseNotifications()
-            ->databaseNotificationsPolling('30s');
+            ->databaseNotificationsPolling('30s')
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::HEAD_END,
+                fn () => '<style>' . file_get_contents(__DIR__ . '/../../public/css/filament-custom.css') . '</style>'
+            );
     }
 }

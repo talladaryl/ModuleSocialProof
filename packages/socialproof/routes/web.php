@@ -55,6 +55,36 @@ Route::prefix('socialproof')
         Route::post('notification-handlers/bulk-action', [NotificationHandlerController::class, 'bulkAction'])->name('notification-handlers.bulk-action');
     });
 
+// Language switcher route
+Route::get('locale/{locale}', function ($locale) {
+    if (in_array($locale, ['fr', 'en'])) {
+        session(['locale' => $locale]);
+        app()->setLocale($locale);
+        
+        // Update user language preference if authenticated
+        $user = auth()->user() ?? auth('client')->user();
+        if ($user && method_exists($user, 'update')) {
+            $user->update(['language' => $locale]);
+        }
+    }
+    return redirect()->back();
+})->name('locale.switch');
+
+// Language switcher route
+Route::get('locale/{locale}', function ($locale) {
+    if (in_array($locale, ['fr', 'en'])) {
+        session(['locale' => $locale]);
+        app()->setLocale($locale);
+        
+        // Update user language preference if authenticated
+        $user = auth()->user() ?? auth('client')->user();
+        if ($user && method_exists($user, 'update')) {
+            $user->update(['language' => $locale]);
+        }
+    }
+    return redirect()->back();
+})->name('locale.switch');
+
 // Public pixel routes (no auth required)
 Route::prefix('socialproof')->name('socialproof.')->group(function () {
     Route::get('pixel/{pixel_key}', [PixelController::class, 'index'])->name('pixel');
