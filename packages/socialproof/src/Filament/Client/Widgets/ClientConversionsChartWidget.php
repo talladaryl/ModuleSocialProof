@@ -9,12 +9,9 @@ use Illuminate\Support\Carbon;
 
 class ClientConversionsChartWidget extends ChartWidget
 {
-    protected static ?string $heading = 'Conversions des 30 derniers jours';
+    // ChartWidget : $heading est NON-statique
+    protected ?string $heading = 'Conversions des 30 derniers jours';
     
-    // CORRECTION : On retire "static" et on utilise le bon typage (string | array | null)
-    protected string | array | null $color = 'info';
-    
-    // CORRECTION : La propriété héritée n'est pas statique non plus
     protected int | string | array $columnSpan = 2;
 
     protected function getData(): array

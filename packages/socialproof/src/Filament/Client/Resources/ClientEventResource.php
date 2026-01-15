@@ -133,6 +133,7 @@ class ClientEventResource extends Resource
                             ->when($data['from'], fn ($q, $date) => $q->whereDate('created_at', '>=', $date))
                             ->when($data['until'], fn ($q, $date) => $q->whereDate('created_at', '<=', $date));
                     }),
+     
             ])
             ->actions([
                 Action::make('view')

@@ -1,190 +1,113 @@
-# Laravel SocialProof Package
+# SocialProof - Documentation d'accès aux Dashboards
 
-Un package Laravel autonome pour créer et gérer des notifications de preuve sociale en temps réel.
+## Accès aux Dashboards
 
-## Fonctionnalités
+### Dashboard Admin
+**URL:** `http://votre-domaine.com/admin`
 
-- 🚀 **Autonome** - Fonctionne indépendamment dans n'importe quel projet Laravel
-- 📊 **Dashboard** - Interface d'administration pour gérer les widgets et notifications
-- 🎯 **API REST** - Endpoints pour tracker les événements et récupérer les notifications
-- 🎨 **Widget JavaScript** - Widget autonome à intégrer sur n'importe quel site
-- 🔄 **Temps réel** - Notifications en temps réel avec polling automatique
-- 🎭 **Thèmes** - Thèmes personnalisables (clair/sombre)
-- 📱 **Responsive** - Compatible mobile et desktop
-- 🔒 **Sécurisé** - Validation des domaines et clés API
+**Authentification:** Guard `web` (utilisateurs Laravel standard)
 
-## Installation
+**Fonctionnalités:**
+- Gestion des clients
+- Gestion des campagnes
+- Gestion des plans d'abonnement
+- Statistiques globales (MRR, événements, conversions)
+- Monitoring des API Keys
 
-### 1. Installation via Composer
+---
 
-```bash
-composer require yourcompany/laravel-socialproof
-```
+### Dashboard Client
+**URL:** `http://votre-domaine.com/client`
 
-### 2. Installation du package
+**Authentification:** Guard `client` (table `clients`)
 
-```bash
-php artisan socialproof:install
-```
+**Fonctionnalités:**
 
-Cette commande va :
-- Publier la configuration
-- Publier les migrations
-- Publier les assets
-- Exécuter les migrations
+| Section | URL | Description |
+|---------|-----|-------------|
+| Dashboard | `/client` | Vue d'ensemble avec statistiques |
+| Sites | `/client/client-sites` | Gestion des sites web |
+| Widgets | `/client/client-widgets` | Création et gestion des widgets |
+| Campagnes | `/client/client-campaigns` | Gestion des campagnes |
+| Notifications | `/client/client-notifications` | Configuration des notifications |
+| Templates | `/client/client-templates` | Modèles de notifications |
+| Règles d'affichage | `/client/client-display-rules` | Conditions d'affichage |
+| Événements | `/client/client-events` | Logs des événements trackés |
+| Conversions | `/client/client-conversions` | Suivi des conversions |
+| Logs Notifications | `/client/client-track-notifications` | Historique des notifications |
+| Clés API | `/client/client-api-keys` | Gestion des clés API |
+| Équipe | `/client/client-team-members` | Gestion des membres |
+| Abonnement | `/client/client-subscriptions` | Détails de l'abonnement |
+| Analytics | `/client/analytics` | Statistiques détaillées |
+| Widget Builder | `/client/widget-builder` | Constructeur de widgets |
+| Paramètres | `/client/settings` | Configuration du compte |
+| Facturation | `/client/billing` | Gestion de l'abonnement |
 
-### 3. Configuration
+---
 
-Modifiez le fichier `config/socialproof.php` selon vos besoins :
+## Configuration requise
+
+### 1. Guards d'authentification (`config/auth.php`)
 
 ```php
-return [
-    'enabled' => true,
-    'widget' => [
-        'default_position' => 'bottom-left',
-        'default_theme' => 'modern',
-        'animation_duration' => 5000,
-        'display_duration' => 4000,
-        'max_notifications' => 5,
+'guards' => [
+    'client' => [
+        'driver' => 'session',
+        'provider' => 'clients',
     ],
-    // ...
-];
+],
+
+'providers' => [
+    'clients' => [
+        'driver' => 'eloquent',
+        'model' => Packages\SocialProof\Models\Client::class,
+    ],
+],
 ```
 
-## Utilisation
+### 2. Enregistrement du ServiceProvider
 
-### 1. Créer un Widget
-
-Accédez au dashboard : `/socialproof`
-
-Créez un nouveau widget en spécifiant :
-- Nom du widget
-- Domaine autorisé
-- Configuration (position, thème, etc.)
-
-### 2. Intégrer le Widget
-
-Copiez le script généré et ajoutez-le à votre site :
-
-```html
-<script>
-window.socialProofConfig = {
-    "apiKey": "sp_your_api_key_here",
-    "apiEndpoint": "https://yoursite.com/api/socialproof",
-    "position": "bottom-left",
-    "theme": "modern"
-};
-</script>
-<script src="https://yoursite.com/vendor/socialproof/js/widget.js" async></script>
+Dans `config/app.php` ou via auto-discovery :
+```php
+Packages\SocialProof\SocialProofServiceProvider::class,
 ```
 
-### 3. Tracker des Événements
-
-#### Via JavaScript (côté client)
-
-```javascript
-// Tracker un achat
-socialProofWidget.track('purchase', {
-    customer_name: 'John Doe',
-    product_name: 'iPhone 15',
-    customer_location: 'Paris, France'
-});
-
-// Tracker une inscription
-socialProofWidget.track('signup', {
-    customer_name: 'Jane Smith',
-    customer_location: 'Lyon, France'
-});
-
-// Tracker un avis
-socialProofWidget.track('review', {
-    customer_name: 'Bob Wilson',
-    rating: 5,
-    customer_location: 'Marseille, France'
-});
+### 3. Publication des assets (optionnel)
+```bash
+php artisan vendor:publish --tag=socialproof-views
+php artisan vendor:publish --tag=socialproof-config
 ```
 
-#### Via API (côté serveur)
+---
+
+## Création d'un compte client (pour tests)
 
 ```php
-use YourCompany\SocialProof\Services\EventEngine;
+use Packages\SocialProof\Models\Client;
+use Illuminate\Support\Facades\Hash;
 
-$eventEngine = app(EventEngine::class);
-
-$eventEngine->trackEvent($widget, 'purchase', [
-    'customer_name' => 'John Doe',
-    'product_name' => 'iPhone 15',
-    'customer_location' => 'Paris, France'
+Client::create([
+    'name' => 'Test Client',
+    'email' => 'client@example.com',
+    'password' => Hash::make('password'),
+    'status' => 'active',
 ]);
 ```
 
-## API Endpoints
+---
 
-### Événements
-
-```
-POST /api/socialproof/widget/{apiKey}/events
-GET  /api/socialproof/widget/{apiKey}/events
-```
-
-### Notifications
+## Structure des fichiers
 
 ```
-GET  /api/socialproof/widget/{apiKey}/notifications
-POST /api/socialproof/widget/{apiKey}/notifications/{id}/displayed
+packages/socialproof/src/Filament/
+├── AdminPanelProvider.php      # Configuration panel Admin
+├── ClientPanelProvider.php     # Configuration panel Client
+├── Admin/
+│   ├── Pages/
+│   ├── Resources/
+│   └── Widgets/
+└── Client/
+    ├── Pages/
+    ├── Resources/
+    └── Widgets/
 ```
-
-### Configuration
-
-```
-GET /api/socialproof/widget/{apiKey}/config
-GET /api/socialproof/widget/{apiKey}/stats
-```
-
-## Types d'Événements
-
-- **purchase** - Achat effectué
-- **signup** - Nouvelle inscription
-- **review** - Nouvel avis client
-- **visit** - Visite de page
-
-## Structure du Package
-
-```
-packages/socialproof/
-├── src/
-│   ├── Models/           # Modèles Eloquent
-│   ├── Services/         # Services métier
-│   ├── Http/
-│   │   ├── Controllers/  # Contrôleurs API et Web
-│   │   └── Requests/     # Validation des requêtes
-│   ├── Jobs/            # Jobs en arrière-plan
-│   └── Console/         # Commandes Artisan
-├── config/              # Configuration
-├── database/
-│   └── migrations/      # Migrations de base de données
-├── routes/              # Routes API et Web
-├── resources/
-│   └── views/           # Vues Blade
-├── public/
-│   └── js/              # Widget JavaScript
-└── tests/               # Tests
-```
-
-## Développement
-
-### Tests
-
-```bash
-composer test
-```
-
-### Linting
-
-```bash
-composer lint
-```
-
-## Licence
-
-MIT License

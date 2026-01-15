@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ClientQuotaWidget extends Widget
 {
-    // Utilisation du namespace de la vue
-    protected static string $view = 'socialproof::client.widgets.quota-widget';
+    // Filament 4 : $view n'est PAS statique
+    protected string $view = 'socialproof::client.widgets.quota-widget';
 
     // Typage explicite pour Filament 4
     protected int | string | array $columnSpan = 'full';

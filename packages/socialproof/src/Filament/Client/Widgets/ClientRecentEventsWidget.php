@@ -10,9 +10,9 @@ use Packages\SocialProof\Models\Event;
 
 class ClientRecentEventsWidget extends BaseWidget
 {
+    // TableWidget : $heading est STATIQUE
     protected static ?string $heading = 'Événements Récents';
     
-    // Typage strict pour Filament 4
     protected int | string | array $columnSpan = 'full';
 
     public function table(Table $table): Table

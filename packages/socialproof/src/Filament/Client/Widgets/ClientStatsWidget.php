@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\DB;
 
 class ClientStatsWidget extends BaseWidget
 {
-    // On peut définir le temps de rafraîchissement si nécessaire (ex: toutes les 30s)
-    protected static ?string $pollingInterval = '30s';
+    // Filament 4 : $pollingInterval n'est plus statique
+    protected ?string $pollingInterval = '30s';
 
     protected function getStats(): array
     {
