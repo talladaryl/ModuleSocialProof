@@ -41,7 +41,8 @@ ALTER TABLE sp_api_keys
 ADD COLUMN rate_limit INT DEFAULT 1000 AFTER permissions,
 ADD COLUMN is_active TINYINT(1) DEFAULT 1 AFTER rate_limit,
 ADD COLUMN usage_count BIGINT DEFAULT 0 AFTER is_active,
-ADD COLUMN ip_whitelist Jexistante données er lesgr;
+ADD COLUMN ip_whitelist JTE sps
+UPDAexistante données er lesgr;
 
 -- Mip_whitelistULL AFTER i JSON N_whitelistN domainCOLUMunt,
 ADD TER usage_coSON NULL AF
