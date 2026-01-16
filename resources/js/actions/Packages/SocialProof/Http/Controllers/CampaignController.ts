@@ -215,7 +215,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:63
  * @route '/socialproof/campaigns/{campaign}'
  */
-export const show = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const show = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -230,13 +230,13 @@ show.definition = {
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:63
  * @route '/socialproof/campaigns/{campaign}'
  */
-show.url = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions) => {
+show.url = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { campaign: args }
     }
 
-            if (typeof args === 'object' && !Array.isArray(args) && 'campaign_id' in args) {
-            args = { campaign: args.campaign_id }
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { campaign: args.id }
         }
     
     if (Array.isArray(args)) {
@@ -249,7 +249,7 @@ show.url = (args: { campaign: string | number | { campaign_id: string | number }
 
     const parsedArgs = {
                         campaign: typeof args.campaign === 'object'
-                ? args.campaign.campaign_id
+                ? args.campaign.id
                 : args.campaign,
                 }
 
@@ -263,7 +263,7 @@ show.url = (args: { campaign: string | number | { campaign_id: string | number }
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:63
  * @route '/socialproof/campaigns/{campaign}'
  */
-show.get = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+show.get = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -272,7 +272,7 @@ show.get = (args: { campaign: string | number | { campaign_id: string | number }
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:63
  * @route '/socialproof/campaigns/{campaign}'
  */
-show.head = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+show.head = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -282,7 +282,7 @@ show.head = (args: { campaign: string | number | { campaign_id: string | number 
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:63
  * @route '/socialproof/campaigns/{campaign}'
  */
-    const showForm = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const showForm = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: show.url(args, options),
         method: 'get',
     })
@@ -292,7 +292,7 @@ show.head = (args: { campaign: string | number | { campaign_id: string | number 
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:63
  * @route '/socialproof/campaigns/{campaign}'
  */
-        showForm.get = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        showForm.get = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: show.url(args, options),
             method: 'get',
         })
@@ -301,7 +301,7 @@ show.head = (args: { campaign: string | number | { campaign_id: string | number 
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:63
  * @route '/socialproof/campaigns/{campaign}'
  */
-        showForm.head = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        showForm.head = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: show.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
@@ -317,7 +317,7 @@ show.head = (args: { campaign: string | number | { campaign_id: string | number 
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:108
  * @route '/socialproof/campaigns/{campaign}/edit'
  */
-export const edit = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const edit = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -332,13 +332,13 @@ edit.definition = {
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:108
  * @route '/socialproof/campaigns/{campaign}/edit'
  */
-edit.url = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions) => {
+edit.url = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { campaign: args }
     }
 
-            if (typeof args === 'object' && !Array.isArray(args) && 'campaign_id' in args) {
-            args = { campaign: args.campaign_id }
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { campaign: args.id }
         }
     
     if (Array.isArray(args)) {
@@ -351,7 +351,7 @@ edit.url = (args: { campaign: string | number | { campaign_id: string | number }
 
     const parsedArgs = {
                         campaign: typeof args.campaign === 'object'
-                ? args.campaign.campaign_id
+                ? args.campaign.id
                 : args.campaign,
                 }
 
@@ -365,7 +365,7 @@ edit.url = (args: { campaign: string | number | { campaign_id: string | number }
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:108
  * @route '/socialproof/campaigns/{campaign}/edit'
  */
-edit.get = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+edit.get = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -374,7 +374,7 @@ edit.get = (args: { campaign: string | number | { campaign_id: string | number }
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:108
  * @route '/socialproof/campaigns/{campaign}/edit'
  */
-edit.head = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+edit.head = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: edit.url(args, options),
     method: 'head',
 })
@@ -384,7 +384,7 @@ edit.head = (args: { campaign: string | number | { campaign_id: string | number 
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:108
  * @route '/socialproof/campaigns/{campaign}/edit'
  */
-    const editForm = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const editForm = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: edit.url(args, options),
         method: 'get',
     })
@@ -394,7 +394,7 @@ edit.head = (args: { campaign: string | number | { campaign_id: string | number 
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:108
  * @route '/socialproof/campaigns/{campaign}/edit'
  */
-        editForm.get = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        editForm.get = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: edit.url(args, options),
             method: 'get',
         })
@@ -403,7 +403,7 @@ edit.head = (args: { campaign: string | number | { campaign_id: string | number 
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:108
  * @route '/socialproof/campaigns/{campaign}/edit'
  */
-        editForm.head = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        editForm.head = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: edit.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
@@ -419,7 +419,7 @@ edit.head = (args: { campaign: string | number | { campaign_id: string | number 
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:120
  * @route '/socialproof/campaigns/{campaign}'
  */
-export const update = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+export const update = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -434,13 +434,13 @@ update.definition = {
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:120
  * @route '/socialproof/campaigns/{campaign}'
  */
-update.url = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions) => {
+update.url = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { campaign: args }
     }
 
-            if (typeof args === 'object' && !Array.isArray(args) && 'campaign_id' in args) {
-            args = { campaign: args.campaign_id }
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { campaign: args.id }
         }
     
     if (Array.isArray(args)) {
@@ -453,7 +453,7 @@ update.url = (args: { campaign: string | number | { campaign_id: string | number
 
     const parsedArgs = {
                         campaign: typeof args.campaign === 'object'
-                ? args.campaign.campaign_id
+                ? args.campaign.id
                 : args.campaign,
                 }
 
@@ -467,7 +467,7 @@ update.url = (args: { campaign: string | number | { campaign_id: string | number
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:120
  * @route '/socialproof/campaigns/{campaign}'
  */
-update.put = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+update.put = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -476,7 +476,7 @@ update.put = (args: { campaign: string | number | { campaign_id: string | number
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:120
  * @route '/socialproof/campaigns/{campaign}'
  */
-update.patch = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
+update.patch = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })
@@ -486,7 +486,7 @@ update.patch = (args: { campaign: string | number | { campaign_id: string | numb
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:120
  * @route '/socialproof/campaigns/{campaign}'
  */
-    const updateForm = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const updateForm = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: update.url(args, {
                     [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                         _method: 'PUT',
@@ -501,7 +501,7 @@ update.patch = (args: { campaign: string | number | { campaign_id: string | numb
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:120
  * @route '/socialproof/campaigns/{campaign}'
  */
-        updateForm.put = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        updateForm.put = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: update.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'PUT',
@@ -515,7 +515,7 @@ update.patch = (args: { campaign: string | number | { campaign_id: string | numb
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:120
  * @route '/socialproof/campaigns/{campaign}'
  */
-        updateForm.patch = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        updateForm.patch = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: update.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'PATCH',
@@ -531,7 +531,7 @@ update.patch = (args: { campaign: string | number | { campaign_id: string | numb
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:131
  * @route '/socialproof/campaigns/{campaign}'
  */
-export const destroy = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+export const destroy = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -546,13 +546,13 @@ destroy.definition = {
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:131
  * @route '/socialproof/campaigns/{campaign}'
  */
-destroy.url = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions) => {
+destroy.url = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { campaign: args }
     }
 
-            if (typeof args === 'object' && !Array.isArray(args) && 'campaign_id' in args) {
-            args = { campaign: args.campaign_id }
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { campaign: args.id }
         }
     
     if (Array.isArray(args)) {
@@ -565,7 +565,7 @@ destroy.url = (args: { campaign: string | number | { campaign_id: string | numbe
 
     const parsedArgs = {
                         campaign: typeof args.campaign === 'object'
-                ? args.campaign.campaign_id
+                ? args.campaign.id
                 : args.campaign,
                 }
 
@@ -579,7 +579,7 @@ destroy.url = (args: { campaign: string | number | { campaign_id: string | numbe
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:131
  * @route '/socialproof/campaigns/{campaign}'
  */
-destroy.delete = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+destroy.delete = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -589,7 +589,7 @@ destroy.delete = (args: { campaign: string | number | { campaign_id: string | nu
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:131
  * @route '/socialproof/campaigns/{campaign}'
  */
-    const destroyForm = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const destroyForm = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: destroy.url(args, {
                     [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                         _method: 'DELETE',
@@ -604,7 +604,7 @@ destroy.delete = (args: { campaign: string | number | { campaign_id: string | nu
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:131
  * @route '/socialproof/campaigns/{campaign}'
  */
-        destroyForm.delete = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        destroyForm.delete = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: destroy.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'DELETE',
@@ -620,7 +620,7 @@ destroy.delete = (args: { campaign: string | number | { campaign_id: string | nu
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:142
  * @route '/socialproof/campaigns/{campaign}/duplicate'
  */
-export const duplicate = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+export const duplicate = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: duplicate.url(args, options),
     method: 'post',
 })
@@ -635,13 +635,13 @@ duplicate.definition = {
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:142
  * @route '/socialproof/campaigns/{campaign}/duplicate'
  */
-duplicate.url = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions) => {
+duplicate.url = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { campaign: args }
     }
 
-            if (typeof args === 'object' && !Array.isArray(args) && 'campaign_id' in args) {
-            args = { campaign: args.campaign_id }
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { campaign: args.id }
         }
     
     if (Array.isArray(args)) {
@@ -654,7 +654,7 @@ duplicate.url = (args: { campaign: string | number | { campaign_id: string | num
 
     const parsedArgs = {
                         campaign: typeof args.campaign === 'object'
-                ? args.campaign.campaign_id
+                ? args.campaign.id
                 : args.campaign,
                 }
 
@@ -668,7 +668,7 @@ duplicate.url = (args: { campaign: string | number | { campaign_id: string | num
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:142
  * @route '/socialproof/campaigns/{campaign}/duplicate'
  */
-duplicate.post = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+duplicate.post = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: duplicate.url(args, options),
     method: 'post',
 })
@@ -678,7 +678,7 @@ duplicate.post = (args: { campaign: string | number | { campaign_id: string | nu
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:142
  * @route '/socialproof/campaigns/{campaign}/duplicate'
  */
-    const duplicateForm = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const duplicateForm = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: duplicate.url(args, options),
         method: 'post',
     })
@@ -688,7 +688,7 @@ duplicate.post = (args: { campaign: string | number | { campaign_id: string | nu
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:142
  * @route '/socialproof/campaigns/{campaign}/duplicate'
  */
-        duplicateForm.post = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        duplicateForm.post = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: duplicate.url(args, options),
             method: 'post',
         })
@@ -699,7 +699,7 @@ duplicate.post = (args: { campaign: string | number | { campaign_id: string | nu
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:153
  * @route '/socialproof/campaigns/{campaign}/regenerate-pixel-key'
  */
-export const regeneratePixelKey = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+export const regeneratePixelKey = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: regeneratePixelKey.url(args, options),
     method: 'post',
 })
@@ -714,13 +714,13 @@ regeneratePixelKey.definition = {
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:153
  * @route '/socialproof/campaigns/{campaign}/regenerate-pixel-key'
  */
-regeneratePixelKey.url = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions) => {
+regeneratePixelKey.url = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { campaign: args }
     }
 
-            if (typeof args === 'object' && !Array.isArray(args) && 'campaign_id' in args) {
-            args = { campaign: args.campaign_id }
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { campaign: args.id }
         }
     
     if (Array.isArray(args)) {
@@ -733,7 +733,7 @@ regeneratePixelKey.url = (args: { campaign: string | number | { campaign_id: str
 
     const parsedArgs = {
                         campaign: typeof args.campaign === 'object'
-                ? args.campaign.campaign_id
+                ? args.campaign.id
                 : args.campaign,
                 }
 
@@ -747,7 +747,7 @@ regeneratePixelKey.url = (args: { campaign: string | number | { campaign_id: str
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:153
  * @route '/socialproof/campaigns/{campaign}/regenerate-pixel-key'
  */
-regeneratePixelKey.post = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+regeneratePixelKey.post = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: regeneratePixelKey.url(args, options),
     method: 'post',
 })
@@ -757,7 +757,7 @@ regeneratePixelKey.post = (args: { campaign: string | number | { campaign_id: st
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:153
  * @route '/socialproof/campaigns/{campaign}/regenerate-pixel-key'
  */
-    const regeneratePixelKeyForm = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const regeneratePixelKeyForm = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: regeneratePixelKey.url(args, options),
         method: 'post',
     })
@@ -767,7 +767,7 @@ regeneratePixelKey.post = (args: { campaign: string | number | { campaign_id: st
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:153
  * @route '/socialproof/campaigns/{campaign}/regenerate-pixel-key'
  */
-        regeneratePixelKeyForm.post = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        regeneratePixelKeyForm.post = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: regeneratePixelKey.url(args, options),
             method: 'post',
         })
@@ -833,7 +833,7 @@ bulkAction.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:200
  * @route '/socialproof/campaigns/{campaign}/reset-statistics'
  */
-export const resetStatistics = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+export const resetStatistics = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: resetStatistics.url(args, options),
     method: 'post',
 })
@@ -848,13 +848,13 @@ resetStatistics.definition = {
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:200
  * @route '/socialproof/campaigns/{campaign}/reset-statistics'
  */
-resetStatistics.url = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions) => {
+resetStatistics.url = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { campaign: args }
     }
 
-            if (typeof args === 'object' && !Array.isArray(args) && 'campaign_id' in args) {
-            args = { campaign: args.campaign_id }
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { campaign: args.id }
         }
     
     if (Array.isArray(args)) {
@@ -867,7 +867,7 @@ resetStatistics.url = (args: { campaign: string | number | { campaign_id: string
 
     const parsedArgs = {
                         campaign: typeof args.campaign === 'object'
-                ? args.campaign.campaign_id
+                ? args.campaign.id
                 : args.campaign,
                 }
 
@@ -881,7 +881,7 @@ resetStatistics.url = (args: { campaign: string | number | { campaign_id: string
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:200
  * @route '/socialproof/campaigns/{campaign}/reset-statistics'
  */
-resetStatistics.post = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+resetStatistics.post = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: resetStatistics.url(args, options),
     method: 'post',
 })
@@ -891,7 +891,7 @@ resetStatistics.post = (args: { campaign: string | number | { campaign_id: strin
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:200
  * @route '/socialproof/campaigns/{campaign}/reset-statistics'
  */
-    const resetStatisticsForm = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const resetStatisticsForm = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: resetStatistics.url(args, options),
         method: 'post',
     })
@@ -901,7 +901,7 @@ resetStatistics.post = (args: { campaign: string | number | { campaign_id: strin
  * @see packages/socialproof/src/Http/Controllers/CampaignController.php:200
  * @route '/socialproof/campaigns/{campaign}/reset-statistics'
  */
-        resetStatisticsForm.post = (args: { campaign: string | number | { campaign_id: string | number } } | [campaign: string | number | { campaign_id: string | number } ] | string | number | { campaign_id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        resetStatisticsForm.post = (args: { campaign: number | { id: number } } | [campaign: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: resetStatistics.url(args, options),
             method: 'post',
         })

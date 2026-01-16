@@ -15,17 +15,27 @@ class Domain extends Model
         'client_id',
         'site_id',
         'user_id',
+        'domain',
         'scheme',
         'host',
         'custom_index_url',
         'custom_not_found_url',
         'type',
         'is_enabled',
+        'is_active',
+        'is_verified',
+        'verified_at',
+        'verification_token',
+        'is_primary',
         'last_datetime',
     ];
 
     protected $casts = [
         'is_enabled' => 'boolean',
+        'is_active' => 'boolean',
+        'is_verified' => 'boolean',
+        'is_primary' => 'boolean',
+        'verified_at' => 'datetime',
         'last_datetime' => 'datetime',
         'type' => 'integer',
     ];

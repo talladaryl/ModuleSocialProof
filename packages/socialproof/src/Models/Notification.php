@@ -11,6 +11,8 @@ class Notification extends Model
     use HasFactory;
 
     protected $table = 'sp_notifications';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
         'widget_id',
@@ -23,6 +25,9 @@ class Notification extends Model
         'is_active',
         'displayed_at',
         'expires_at',
+        'notifiable_type',
+        'notifiable_id',
+        'read_at',
     ];
 
     protected $casts = [
@@ -30,6 +35,7 @@ class Notification extends Model
         'is_active' => 'boolean',
         'displayed_at' => 'datetime',
         'expires_at' => 'datetime',
+        'read_at' => 'datetime',
     ];
 
     public function widget(): BelongsTo

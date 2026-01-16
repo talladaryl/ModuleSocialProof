@@ -39,8 +39,17 @@ class ClientResource extends Resource
                 ->schema([
                     TextInput::make('name')->label('Nom')->required(),
                     TextInput::make('email')->label('Email')->email()->required()->unique(ignoreRecord: true),
-                    TextInput::make('password')->label('Mot de passe')->password()->required()->confirmed(),
-                    TextInput::make('password_confirmation')->label('Confirmer le mot de passe')->password()->required(),
+                    TextInput::make('password')
+                        ->label('Mot de passe')
+                        ->password()
+                        ->required(fn ($context) => $context === 'create')
+                        ->dehydrated(fn ($state) => filled($state))
+                        ->confirmed(),
+                    TextInput::make('password_confirmation')
+                        ->label('Confirmer le mot de passe')
+                        ->password()
+                        ->required(fn ($context) => $context === 'create')
+                        ->dehydrated(false),
                     TextInput::make('phone')->label('Téléphone'),
                     FileUpload::make('avatar')->image()->directory('avatars')->avatar(),
                 ]),

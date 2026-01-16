@@ -14,8 +14,7 @@ class Team extends Model
     use SoftDeletes;
 
     protected $table = 'sp_teams';
-    protected $primaryKey = 'id';
-    //protected $primaryKey = 'team_id';
+    protected $primaryKey = 'team_id';
 
     protected $fillable = [
         'client_id',

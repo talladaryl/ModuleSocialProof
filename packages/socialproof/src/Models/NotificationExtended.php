@@ -87,6 +87,16 @@ class NotificationExtended extends Model
         return $this->belongsTo(Campaign::class, 'campaign_id', 'id');
     }
 
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class, 'team_id', 'team_id');
+    }
+
+    public function site(): BelongsTo
+    {
+        return $this->belongsTo(Site::class, 'site_id', 'site_id');
+    }
+
     public function trackConversions(): HasMany
     {
         return $this->hasMany(TrackConversion::class, 'notification_id', 'notification_id');

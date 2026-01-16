@@ -37,6 +37,12 @@ class TeamResource extends Resource
             Section::make('Informations')
                 ->columns(2)
                 ->schema([
+                    Select::make('client_id')
+                        ->label('Client')
+                        ->relationship('client', 'name')
+                        ->searchable()
+                        ->preload()
+                        ->required(),
                     TextInput::make('name')->label('Nom')->required(),
                     TextInput::make('slug')->required()->unique(ignoreRecord: true),
                     Textarea::make('description')->columnSpanFull(),
@@ -65,6 +71,10 @@ class TeamResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('client.name')
+                    ->label('Client')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')->label('Nom')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('slug')->searchable(),
                 Tables\Columns\TextColumn::make('plan.name')
@@ -94,6 +104,9 @@ class TeamResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('client_id')
+                    ->label('Client')
+                    ->relationship('client', 'name'),
                 Tables\Filters\SelectFilter::make('plan_id')
                     ->label('Plan')
                     ->relationship('plan', 'name'),

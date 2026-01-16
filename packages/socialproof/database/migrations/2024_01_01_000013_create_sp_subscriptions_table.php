@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('billing_cycle', ['monthly', 'yearly'])->default('monthly');
             $table->decimal('amount', 10, 2);
             $table->string('currency', 3)->default('USD');
+            $table->string('payment_method', 50)->nullable();
             
             // Dates importantes
             $table->timestamp('trial_starts_at')->nullable();
@@ -26,10 +27,14 @@ return new class extends Migration
             $table->timestamp('ends_at')->nullable();
             $table->timestamp('canceled_at')->nullable();
             $table->timestamp('next_billing_at')->nullable();
+            $table->timestamp('last_payment_at')->nullable();
+            $table->timestamp('next_payment_at')->nullable();
             
             // Intégration paiement
             $table->string('payment_provider', 50)->nullable(); // stripe, paypal, etc.
             $table->string('payment_provider_id', 191)->nullable();
+            $table->string('provider_subscription_id', 191)->nullable();
+            $table->string('provider_customer_id', 191)->nullable();
             $table->string('payment_method_id', 191)->nullable();
             $table->json('payment_metadata')->nullable();
             
