@@ -34,6 +34,7 @@ class SocialProofPanelProvider extends PanelProvider
             ->id('socialproof')
             ->path('socialproof-admin')
             ->login()
+            ->databaseNotifications(false)
             ->colors([
                 'primary' => Color::Blue,
             ])

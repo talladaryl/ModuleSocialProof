@@ -101,7 +101,7 @@ index.head = (args: { apiKey: string | number } | [apiKey: string | number ] | s
  * @see packages/socialproof/src/Http/Controllers/Api/NotificationController.php:46
  * @route '/api/socialproof/widget/{apiKey}/notifications/{notification}/displayed'
  */
-export const markDisplayed = (args: { apiKey: string | number, notification: number | { id: number } } | [apiKey: string | number, notification: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+export const markDisplayed = (args: { apiKey: string | number, notification: string | { id: string } } | [apiKey: string | number, notification: string | { id: string } ], options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: markDisplayed.url(args, options),
     method: 'post',
 })
@@ -116,7 +116,7 @@ markDisplayed.definition = {
  * @see packages/socialproof/src/Http/Controllers/Api/NotificationController.php:46
  * @route '/api/socialproof/widget/{apiKey}/notifications/{notification}/displayed'
  */
-markDisplayed.url = (args: { apiKey: string | number, notification: number | { id: number } } | [apiKey: string | number, notification: number | { id: number } ], options?: RouteQueryOptions) => {
+markDisplayed.url = (args: { apiKey: string | number, notification: string | { id: string } } | [apiKey: string | number, notification: string | { id: string } ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
                     apiKey: args[0],
@@ -144,7 +144,7 @@ markDisplayed.url = (args: { apiKey: string | number, notification: number | { i
  * @see packages/socialproof/src/Http/Controllers/Api/NotificationController.php:46
  * @route '/api/socialproof/widget/{apiKey}/notifications/{notification}/displayed'
  */
-markDisplayed.post = (args: { apiKey: string | number, notification: number | { id: number } } | [apiKey: string | number, notification: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+markDisplayed.post = (args: { apiKey: string | number, notification: string | { id: string } } | [apiKey: string | number, notification: string | { id: string } ], options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: markDisplayed.url(args, options),
     method: 'post',
 })
@@ -154,7 +154,7 @@ markDisplayed.post = (args: { apiKey: string | number, notification: number | { 
  * @see packages/socialproof/src/Http/Controllers/Api/NotificationController.php:46
  * @route '/api/socialproof/widget/{apiKey}/notifications/{notification}/displayed'
  */
-    const markDisplayedForm = (args: { apiKey: string | number, notification: number | { id: number } } | [apiKey: string | number, notification: number | { id: number } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    const markDisplayedForm = (args: { apiKey: string | number, notification: string | { id: string } } | [apiKey: string | number, notification: string | { id: string } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
         action: markDisplayed.url(args, options),
         method: 'post',
     })
@@ -164,7 +164,7 @@ markDisplayed.post = (args: { apiKey: string | number, notification: number | { 
  * @see packages/socialproof/src/Http/Controllers/Api/NotificationController.php:46
  * @route '/api/socialproof/widget/{apiKey}/notifications/{notification}/displayed'
  */
-        markDisplayedForm.post = (args: { apiKey: string | number, notification: number | { id: number } } | [apiKey: string | number, notification: number | { id: number } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        markDisplayedForm.post = (args: { apiKey: string | number, notification: string | { id: string } } | [apiKey: string | number, notification: string | { id: string } ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
             action: markDisplayed.url(args, options),
             method: 'post',
         })

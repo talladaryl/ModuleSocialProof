@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('sp_widgets', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 191);
+            $table->string('domain', 191);
+            $table->string('api_key', 191)->unique();
+            $table->json('settings')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['domain', 'is_active']);
+            $table->index('api_key');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('sp_widgets');
+    }
+};

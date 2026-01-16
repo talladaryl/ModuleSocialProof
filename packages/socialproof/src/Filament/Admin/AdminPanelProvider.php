@@ -22,9 +22,10 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('socialproof-admin')
-            ->path('admin/socialproof')
+            ->id('admin')
+            ->path('admin')
             ->login()
+            ->databaseNotifications(false)
             ->colors([
                 'primary' => Color::Indigo,
                 'danger' => Color::Rose,
@@ -59,10 +60,12 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->authGuard('web')
-            ->brandName('SocialProof')
+            ->brandName(null)
             ->brandLogo(null)
             ->favicon('/favicon.ico')
-            ->topNavigation()
+            ->sidebarCollapsibleOnDesktop(false)
+            ->sidebarFullyCollapsibleOnDesktop(false)
+            ->navigationItems([])
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Dashboard'),
@@ -81,8 +84,10 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make()
                     ->label('Système'),
             ])
-            ->databaseNotifications()
-            ->databaseNotificationsPolling('30s')
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::BODY_START,
+                fn () => view('socialproof::components.floating-vertical-menu'),
+            )
             ->renderHook(
                 \Filament\View\PanelsRenderHook::HEAD_END,
                 fn () => '<style>' . file_get_contents(__DIR__ . '/../../../public/css/filament-custom.css') . '</style>'

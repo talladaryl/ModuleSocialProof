@@ -55,6 +55,7 @@ class ClientPanelProvider extends PanelProvider
             ->id('client')
             ->path('client')
             ->login()
+            ->databaseNotifications(false)
             ->authGuard('client')
             ->colors([
                 'primary' => Color::Indigo,
@@ -110,10 +111,11 @@ class ClientPanelProvider extends PanelProvider
                 Authenticate::class,
                 ClientTenantMiddleware::class,
             ])
-            ->brandName('SocialProof')
-            ->brandLogo(fn () => auth('client')->user()?->settings['logo'] ?? null)
+            ->brandName(null)
+            ->brandLogo(null)
             ->favicon('/favicon.ico')
-            ->topNavigation()
+            ->sidebarCollapsibleOnDesktop(false)
+            ->sidebarFullyCollapsibleOnDesktop(false)
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Dashboard'),
@@ -131,6 +133,10 @@ class ClientPanelProvider extends PanelProvider
             ->maxContentWidth('full')
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s')
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::BODY_START,
+                fn () => view('socialproof::components.floating-vertical-menu'),
+            )
             ->renderHook(
                 \Filament\View\PanelsRenderHook::HEAD_END,
                 fn () => '<style>' . file_get_contents(__DIR__ . '/../../public/css/filament-custom.css') . '</style>'
